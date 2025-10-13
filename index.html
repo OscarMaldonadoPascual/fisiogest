@@ -741,38 +741,86 @@
             }
         }
 
-        async function writeSheet(sheetName, action, data) {
-            try {
-                const payload = {
-                    action: action,
-                    sheet: sheetName,
-                    data: data
-                };
-                
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload)
-                });
-                
-                if (!response.ok) throw new Error('Error en respuesta');
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    return true;
-                } else {
-                    throw new Error(result.message || 'Error al guardar');
-                }
-            } catch (error) {
-                console.error('Error escribiendo en ' + sheetName + ':', error);
-                showNotification('Error al guardar en ' + sheetName + ': ' + error.message, 'error');
-                return false;
-            }
+function doGet(e) {
+  try {
+    const action = e.parameter.action;
+    const sheet = e.parameter.sheet;
+    
+    // Test de conexión
+    if (action === 'test') {
+      return ContentService.createTextOutput(
+        JSON.stringify({ status: 'success', message: 'Conexión establecida' })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    // Lectura de datos
+    if (action === 'read' && sheet) {
+      const data = readData(sheet);
+      return ContentService.createTextOutput(
+        JSON.stringify({ status: 'success', data: data })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    // Escritura de datos (nuevo para evitar CORS)
+    if (action && sheet && e.parameter.data) {
+      try {
+        const data = JSON.parse(e.parameter.data);
+        let result;
+        
+        switch (action) {
+          case 'add':
+            result = addData(sheet, data);
+            break;
+          case 'update':
+            result = updateData(sheet, data);
+            break;
+          case 'delete':
+            result = deleteData(sheet, data);
+            break;
+          default:
+            throw new Error('Acción no válida');
         }
+        
+        return ContentService.createTextOutput(
+          JSON.stringify({ status: 'success', result: result })
+        ).setMimeType(ContentService.MimeType.JSON);
+      } catch (error) {
+        return ContentService.createTextOutput(
+          JSON.stringify({ status: 'error', message: error.toString() })
+        ).setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+    
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: 'error', message: 'Acción no válida' })
+    ).setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    return ContentService.createTextOutput(
+      JSON.stringify({ status: 'error', message: error.toString() })
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+};
+        
+        // Construir URL con parámetros
+        const url = SCRIPT_URL + '?' + Object.keys(params)
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+            .join('&');
+        
+        const response = await fetch(url, {
+            method: 'GET',
+            mode: 'no-cors'
+        });
+        
+        // Como usamos no-cors, asumimos éxito si no hay error
+        return true;
+        
+    } catch (error) {
+        console.error('Error escribiendo en ' + sheetName + ':', error);
+        showNotification('Error al guardar: ' + error.message, 'error');
+        return false;
+    }
+}
 
         // =============================================
         // NAVEGACIÓN
