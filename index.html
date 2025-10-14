@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FisioGest Pro - Sistema completo de gestión para clínicas de fisioterapia">
-    <title>FisioGest Pro v3.0 - Sistema de Gestión</title>
+    <meta name="description" content="FisioGest Pro - Sistema de gestión para clínicas de fisioterapia">
+    <title>FisioGest Pro - Sistema de Gestión</title>
     
     <style>
         * {
@@ -19,7 +19,9 @@
             min-height: 100vh;
         }
 
-        /* Login Screen */
+        /* ====================== */
+        /* LOGIN SCREEN */
+        /* ====================== */
         .login-container {
             display: flex;
             justify-content: center;
@@ -35,15 +37,125 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             width: 100%;
             max-width: 400px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-box h2 {
             text-align: center;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            font-size: 28px;
         }
 
-        /* Main App */
+        .login-box p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        /* ====================== */
+        /* MAIN APP */
+        /* ====================== */
         .app-container {
             display: none;
             background: white;
@@ -58,6 +170,11 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
         }
 
         .user-info {
@@ -68,17 +185,18 @@
 
         .user-badge {
             background: rgba(255,255,255,0.2);
-            padding: 5px 10px;
+            padding: 5px 15px;
             border-radius: 20px;
             font-size: 12px;
         }
 
-        /* Navigation */
+        /* Navigation Tabs */
         .nav-tabs {
-            background: #f0f0f0;
+            background: #f8f9fa;
             display: flex;
             overflow-x: auto;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid #dee2e6;
+            padding: 0 15px;
         }
 
         .nav-tab {
@@ -90,20 +208,22 @@
             border-bottom: 3px solid transparent;
             white-space: nowrap;
             font-size: 14px;
+            font-weight: 500;
+            color: #495057;
         }
 
         .nav-tab:hover {
-            background: #e0e0e0;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
         }
 
         .nav-tab.active {
-            background: white;
             color: #667eea;
-            font-weight: bold;
             border-bottom-color: #667eea;
+            background: white;
         }
 
-        /* Content */
+        /* Content Area */
         .content {
             padding: 30px;
             max-width: 1400px;
@@ -120,123 +240,94 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         /* Cards */
         .card {
             background: white;
-            padding: 25px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 25px;
             margin-bottom: 20px;
-        }
-
-        .card h2 {
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
         }
 
         .card h3 {
-            color: #555;
-            margin: 20px 0 15px 0;
-        }
-
-        /* Forms */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
             color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
         }
 
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-        }
-
-        .form-row {
+        /* Stats Dashboard */
+        .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        /* Buttons */
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-card h4 {
             font-size: 14px;
-            transition: all 0.3s;
-            margin: 5px;
+            opacity: 0.9;
+            margin-bottom: 10px;
         }
 
-        .btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        .stat-card .value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .btn-primary { background: #667eea; color: white; }
-        .btn-success { background: #48bb78; color: white; }
-        .btn-danger { background: #f56565; color: white; }
-        .btn-warning { background: #ed8936; color: white; }
-        .btn-secondary { background: #718096; color: white; }
-        .btn-info { background: #4299e1; color: white; }
-
-        .btn-sm {
-            padding: 5px 10px;
+        .stat-card .change {
             font-size: 12px;
+            opacity: 0.8;
         }
 
         /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .table-container {
+            overflow-x: auto;
             margin-top: 20px;
         }
 
-        table th {
-            background: #667eea;
-            color: white;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #f8f9fa;
             padding: 12px;
             text-align: left;
-            font-weight: 500;
-            white-space: nowrap;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
         }
 
-        table td {
+        td {
             padding: 12px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #dee2e6;
         }
 
-        table tr:hover {
-            background: #f7f7f7;
+        tr:hover {
+            background: #f8f9fa;
         }
 
-        /* Calendar / Agenda */
-        .calendar-controls {
+        /* Calendar */
+        .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -245,69 +336,81 @@
             gap: 10px;
         }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: 100px repeat(7, 1fr);
-            gap: 1px;
-            background: #ddd;
-            margin-top: 20px;
-            overflow-x: auto;
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
-        .calendar-header {
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: #dee2e6;
+            border: 1px solid #dee2e6;
+        }
+
+        .calendar-day-header {
             background: #667eea;
             color: white;
-            padding: 15px 10px;
+            padding: 10px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 14px;
         }
 
-        .time-slot {
+        .calendar-day {
             background: white;
-            padding: 8px;
-            min-height: 60px;
-            cursor: pointer;
-            transition: background 0.2s;
+            min-height: 100px;
+            padding: 5px;
             position: relative;
-            font-size: 12px;
         }
 
-        .time-slot:hover {
-            background: #f0f8ff;
+        .calendar-day.other-month {
+            background: #f8f9fa;
+            opacity: 0.5;
         }
 
-        .time-label {
-            background: #f7f7f7;
-            padding: 15px 10px;
-            text-align: center;
-            font-weight: 500;
-            font-size: 13px;
+        .calendar-day-number {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #495057;
         }
 
-        .appointment {
+        .calendar-day.today .calendar-day-number {
             background: #667eea;
             color: white;
-            padding: 4px 8px;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .appointment-item {
+            background: #667eea;
+            color: white;
+            padding: 4px 6px;
             border-radius: 4px;
-            margin: 2px 0;
             font-size: 11px;
+            margin-bottom: 2px;
             cursor: pointer;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .appointment.confirmed {
-            background: #48bb78;
+        .appointment-item:hover {
+            background: #764ba2;
         }
 
-        .appointment.pending {
-            background: #ed8936;
-        }
-
-        .appointment.completed {
-            background: #718096;
+        /* Form Layout */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         /* Modal */
@@ -316,678 +419,1047 @@
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.5);
             z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
 
-        .modal.active {
-            display: flex;
-        }
-
         .modal-content {
             background: white;
-            width: 100%;
-            max-width: 700px;
-            padding: 30px;
             border-radius: 10px;
+            max-width: 800px;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            animation: slideIn 0.3s;
         }
 
         .modal-header {
+            padding: 20px 25px;
+            border-bottom: 2px solid #dee2e6;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
         }
 
-        .close {
-            font-size: 30px;
-            color: #999;
-            cursor: pointer;
-        }
-
-        .close:hover {
+        .modal-header h3 {
+            margin: 0;
             color: #333;
         }
 
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
+        .close-modal:hover {
+            color: #333;
         }
 
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
+        .modal-body {
+            padding: 25px;
         }
 
-        .stat-label {
-            margin-top: 5px;
-            opacity: 0.9;
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 2px solid #dee2e6;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* Search and Filters */
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Alerts */
         .alert {
-            padding: 15px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
             margin-bottom: 20px;
+            display: none;
         }
 
-        .alert-info {
-            background: #e6f4ff;
-            border-left: 4px solid #1890ff;
-        }
-
-        .alert-success {
-            background: #f6ffed;
-            border-left: 4px solid #52c41a;
-        }
-
-        .alert-error {
-            background: #ffebe6;
-            border-left: 4px solid #ff4d4f;
-        }
-
-        /* Badge */
-        .badge {
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-
-        .badge-success { background: #c6f6d5; color: #22543d; }
-        .badge-warning { background: #feebc8; color: #744210; }
-        .badge-danger { background: #fed7d7; color: #742a2a; }
-        .badge-info { background: #e6f4ff; color: #0050b3; }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 2000;
+        .alert.active {
+            display: block;
             animation: slideIn 0.3s;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(400px); }
-            to { transform: translateX(0); }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
 
-        .notification.success {
-            background: #52c41a;
-            color: white;
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
-        .notification.error {
-            background: #ff4d4f;
-            color: white;
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
         }
 
-        /* Factura */
-        .factura-preview {
-            border: 1px solid #ddd;
-            padding: 20px;
-            margin: 20px 0;
-            background: #f9f9f9;
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 5px;
         }
 
-        .factura-header {
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .factura-table {
-            width: 100%;
-            margin: 20px 0;
-        }
-
-        .factura-table th {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .factura-total {
-            text-align: right;
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #667eea;
-        }
-
-        /* Horarios */
-        .horario-grid {
-            display: grid;
-            grid-template-columns: 100px repeat(2, 200px);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .horario-dia {
-            font-weight: bold;
-            padding: 10px;
-            background: #f0f0f0;
-            border-radius: 5px;
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
+            .header {
+                flex-direction: column;
+                text-align: center;
             }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-tabs {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-            }
-            
-            .nav-tab {
-                padding: 10px 15px;
-                font-size: 12px;
-            }
-            
+
             .content {
                 padding: 15px;
             }
-            
-            .calendar-grid {
-                font-size: 10px;
-                grid-template-columns: 60px repeat(7, 1fr);
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendar-day {
+                min-height: 60px;
+            }
+
+            .appointment-item {
+                font-size: 9px;
+                padding: 2px 4px;
             }
         }
 
-        @media print {
-            .nav-tabs, .header, .btn, .modal {
-                display: none !important;
-            }
-            
-            .factura-preview {
-                border: none;
-                box-shadow: none;
-            }
+        /* Configuración de Empresa */
+        .config-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .config-section h4 {
+            margin-bottom: 15px;
+            color: #667eea;
         }
     </style>
 </head>
 <body>
-    <!-- Setup inicial para la URL -->
-    <div id="setupScreen" class="login-container" style="display: none;">
-        <div class="login-box">
-            <h2>🏥 Configuración Inicial</h2>
-            <p style="margin-bottom: 20px; text-align: center; color: #666;">
-                Por favor, ingresa la URL del Google Apps Script
-            </p>
-            <form id="setupForm">
-                <div class="form-group">
-                    <label>URL del Web App *</label>
-                    <input type="url" class="form-control" id="scriptUrl" required 
-                           placeholder="https://script.google.com/macros/s/.../exec">
-                    <small style="color: #666;">Esta URL te la proporcionó el administrador del sistema</small>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    Guardar y Continuar
-                </button>
-            </form>
-        </div>
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
     </div>
 
     <!-- Login Screen -->
     <div class="login-container" id="loginScreen">
         <div class="login-box">
-            <h2>🏥 FisioGest Pro v3.0</h2>
-            
-            <div id="loginError" class="alert alert-error" style="display: none;"></div>
-            
+            <h2>FisioGest Pro</h2>
+            <p>Sistema de Gestión de Clínica</p>
             <form id="loginForm">
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" class="form-control" id="loginEmail" required>
+                    <label>Usuario</label>
+                    <input type="text" id="loginUser" required>
                 </div>
-                
                 <div class="form-group">
                     <label>Contraseña</label>
-                    <input type="password" class="form-control" id="loginPassword" required>
+                    <input type="password" id="loginPassword" required>
                 </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    Iniciar Sesión
-                </button>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
             </form>
-            
-            <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
-                Contacta con el administrador para obtener tus credenciales
-            </div>
+            <div class="alert alert-danger" id="loginError"></div>
         </div>
     </div>
 
-    <!-- Main App -->
-    <div class="app-container" id="mainApp">
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <!-- Header -->
         <div class="header">
-            <h1>🏥 FisioGest Pro v3.0</h1>
+            <h1>FisioGest Pro</h1>
             <div class="user-info">
-                <span id="userName">Usuario</span>
-                <span class="user-badge" id="userType">Tipo</span>
+                <span id="currentUserName">Usuario</span>
+                <span class="user-badge" id="currentUserType">Tipo</span>
                 <button class="btn btn-secondary btn-sm" onclick="logout()">Cerrar Sesión</button>
             </div>
         </div>
 
+        <!-- Navigation -->
         <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('dashboard', event)">📊 Dashboard</button>
-            <button class="nav-tab" onclick="showSection('agenda', event)">📅 Agenda</button>
-            <button class="nav-tab" onclick="showSection('pacientes', event)">👥 Pacientes</button>
-            <button class="nav-tab" onclick="showSection('citas', event)">🕐 Citas</button>
-            <button class="nav-tab" onclick="showSection('facturas', event)">💰 Facturas</button>
-            <button class="nav-tab" onclick="showSection('actos', event)">💊 Tratamientos</button>
-            <button class="nav-tab" onclick="showSection('usuarios', event)">👨‍⚕️ Profesionales</button>
-            <button class="nav-tab" onclick="showSection('config', event)">⚙️ Configuración</button>
+            <button class="nav-tab active" onclick="showSection('dashboard')">📊 Dashboard</button>
+            <button class="nav-tab" onclick="showSection('agenda')">📅 Agenda</button>
+            <button class="nav-tab" onclick="showSection('pacientes')">👥 Pacientes</button>
+            <button class="nav-tab" onclick="showSection('profesionales')">👨‍⚕️ Profesionales</button>
+            <button class="nav-tab" onclick="showSection('actos')">💼 Actos</button>
+            <button class="nav-tab" onclick="showSection('facturacion')">💰 Facturación</button>
+            <button class="nav-tab" onclick="showSection('configuracion')">⚙️ Configuración</button>
         </div>
 
+        <!-- Content -->
         <div class="content">
-            <!-- Dashboard -->
-            <div id="dashboard" class="section active">
+            <!-- Dashboard Section -->
+            <div class="section active" id="dashboard">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Citas Hoy</h4>
+                        <div class="value" id="statCitasHoy">0</div>
+                        <div class="change">+0% vs ayer</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Pacientes Activos</h4>
+                        <div class="value" id="statPacientes">0</div>
+                        <div class="change">Total en sistema</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Facturación Mes</h4>
+                        <div class="value" id="statFacturacion">0€</div>
+                        <div class="change">+0% vs mes anterior</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Pendientes de Cobro</h4>
+                        <div class="value" id="statPendientes">0€</div>
+                        <div class="change">Facturas pendientes</div>
+                    </div>
+                </div>
+
                 <div class="card">
-                    <h2>Dashboard</h2>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-value" id="statPacientes">0</div>
-                            <div class="stat-label">Pacientes</div>
+                    <h3>Exportar Datos</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input type="date" id="exportFechaDesde">
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="statCitasHoy">0</div>
-                            <div class="stat-label">Citas Hoy</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="statFacturasMes">0€</div>
-                            <div class="stat-label">Facturado Mes</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-value" id="statProfesionales">0</div>
-                            <div class="stat-label">Profesionales</div>
+                        <div class="form-group">
+                            <label>Hasta</label>
+                            <input type="date" id="exportFechaHasta">
                         </div>
                     </div>
+                    <div class="form-row">
+                        <button class="btn btn-success" onclick="exportarPacientes()">📥 Exportar Pacientes</button>
+                        <button class="btn btn-success" onclick="exportarCitas()">📥 Exportar Citas</button>
+                        <button class="btn btn-success" onclick="exportarFacturacion()">📥 Exportar Facturación</button>
+                    </div>
+                </div>
 
+                <div class="card">
                     <h3>Próximas Citas</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Paciente</th>
-                                <th>Profesional</th>
-                                <th>Tratamiento</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="proximasCitasTable">
-                            <tr><td colspan="6" style="text-align: center;">Cargando...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Agenda -->
-            <div id="agenda" class="section">
-                <div class="card">
-                    <h2>Agenda Semanal</h2>
-                    
-                    <div class="calendar-controls">
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <button class="btn btn-secondary" onclick="previousWeek()">← Anterior</button>
-                            <input type="date" id="weekSelector" class="form-control" style="width: 200px;">
-                            <button class="btn btn-secondary" onclick="nextWeek()">Siguiente →</button>
-                        </div>
-                        <div>
-                            <select id="profesionalFilter" class="form-control" style="width: 250px;">
-                                <option value="">Todos los profesionales</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div id="calendarGrid" class="calendar-grid">
-                        <!-- Se genera dinámicamente -->
-                    </div>
-                    
-                    <div class="alert alert-info" style="margin-top: 20px;">
-                        <strong>Leyenda:</strong> 
-                        🟢 Confirmada | 🟡 Pendiente | ⚫ Completada | 🔴 Cancelada
-                        <br>Haz click en un horario vacío para crear una cita
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pacientes -->
-            <div id="pacientes" class="section">
-                <div class="card">
-                    <h2>Gestión de Pacientes</h2>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <button class="btn btn-primary" onclick="nuevoPaciente()">➕ Nuevo Paciente</button>
-                        <button class="btn btn-success" onclick="loadPacientes()">🔄 Actualizar</button>
-                    </div>
-
-                    <div style="overflow-x: auto;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>DNI</th>
-                                    <th>Nombre</th>
-                                    <th>Teléfono</th>
-                                    <th>Email</th>
-                                    <th>Última Visita</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="pacientesTable">
-                                <tr><td colspan="6" style="text-align: center;">Cargando...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Citas -->
-            <div id="citas" class="section">
-                <div class="card">
-                    <h2>Gestión de Citas</h2>
-                    
-                    <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button class="btn btn-primary" onclick="nuevaCita()">➕ Nueva Cita</button>
-                        <input type="date" id="filtroCitas" class="form-control" style="width: 200px;">
-                        <select id="filtroEstadoCita" class="form-control" style="width: 150px;">
-                            <option value="">Todos los estados</option>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Confirmada">Confirmada</option>
-                            <option value="Completada">Completada</option>
-                            <option value="Cancelada">Cancelada</option>
-                        </select>
-                        <button class="btn btn-success" onclick="loadCitas()">🔄 Actualizar</button>
-                    </div>
-
-                    <div style="overflow-x: auto;">
-                        <table>
+                    <div class="table-container">
+                        <table id="proximasCitasTable">
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
                                     <th>Hora</th>
                                     <th>Paciente</th>
                                     <th>Profesional</th>
-                                    <th>Tratamiento</th>
-                                    <th>Precio</th>
+                                    <th>Acto</th>
                                     <th>Estado</th>
-                                    <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="citasTable">
-                                <tr><td colspan="8" style="text-align: center;">Selecciona una fecha</td></tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Facturas -->
-            <div id="facturas" class="section">
+            <!-- Agenda Section -->
+            <div class="section" id="agenda">
+                <div class="calendar-header">
+                    <h2>Agenda</h2>
+                    <div class="calendar-nav">
+                        <button class="btn btn-secondary btn-sm" onclick="cambiarMes(-1)">◀ Anterior</button>
+                        <span id="mesActual" style="font-weight: 600; min-width: 150px; text-align: center;"></span>
+                        <button class="btn btn-secondary btn-sm" onclick="cambiarMes(1)">Siguiente ▶</button>
+                        <button class="btn btn-primary" onclick="openModal('citaModal')">+ Nueva Cita</button>
+                    </div>
+                </div>
+
                 <div class="card">
-                    <h2>Gestión de Facturas</h2>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <button class="btn btn-primary" onclick="nuevaFactura()">➕ Nueva Factura</button>
-                        <input type="month" id="filtroMesFactura" class="form-control" style="width: 200px; display: inline-block;">
-                        <button class="btn btn-success" onclick="loadFacturas()">🔄 Actualizar</button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Filtrar por Profesional</label>
+                            <select id="filtroProfesional" onchange="cargarAgenda()">
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Vista</label>
+                            <select id="vistaAgenda" onchange="cargarAgenda()">
+                                <option value="mes">Mes</option>
+                                <option value="semana">Semana</option>
+                                <option value="dia">Día</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Número</th>
-                                <th>Fecha</th>
-                                <th>Paciente</th>
-                                <th>Concepto</th>
-                                <th>Base</th>
-                                <th>IVA</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="facturasTable">
-                            <tr><td colspan="9" style="text-align: center;">Cargando...</td></tr>
-                        </tbody>
-                    </table>
+                    <div class="calendar-grid" id="calendar"></div>
                 </div>
             </div>
 
-            <!-- Tratamientos -->
-            <div id="actos" class="section">
+            <!-- Pacientes Section -->
+            <div class="section" id="pacientes">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Gestión de Pacientes</h2>
+                    <button class="btn btn-primary" onclick="openModal('pacienteModal')">+ Nuevo Paciente</button>
+                </div>
+
                 <div class="card">
-                    <h2>Gestión de Tratamientos</h2>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <button class="btn btn-primary" onclick="nuevoActo()">➕ Nuevo Tratamiento</button>
-                        <button class="btn btn-success" onclick="loadActos()">🔄 Actualizar</button>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar paciente..." id="searchPaciente" oninput="filtrarPacientes()">
+                        <select id="filtroPacienteEstado" onchange="filtrarPacientes()">
+                            <option value="">Todos los estados</option>
+                            <option value="Activo">Activos</option>
+                            <option value="Inactivo">Inactivos</option>
+                        </select>
                     </div>
-                    
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Duración</th>
-                                <th>Precio</th>
-                                <th>IVA</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="actosTable">
-                            <tr><td colspan="6" style="text-align: center;">Cargando...</td></tr>
-                        </tbody>
-                    </table>
+
+                    <div class="table-container">
+                        <table id="pacientesTable">
+                            <thead>
+                                <tr>
+                                    <th>DNI/NIE</th>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Profesionales -->
-            <div id="usuarios" class="section">
-                <div class="card">
+            <!-- Profesionales Section -->
+            <div class="section" id="profesionales">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2>Gestión de Profesionales</h2>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <button class="btn btn-primary" onclick="nuevoUsuario()">➕ Nuevo Profesional</button>
-                        <button class="btn btn-success" onclick="loadUsuarios()">🔄 Actualizar</button>
-                    </div>
+                    <button class="btn btn-primary" onclick="openModal('profesionalModal')">+ Nuevo Profesional</button>
+                </div>
 
-                    <div style="overflow-x: auto;">
-                        <table>
+                <div class="card">
+                    <div class="table-container">
+                        <table id="profesionalesTable">
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Email</th>
                                     <th>Tipo</th>
-                                    <th>Teléfono</th>
-                                    <th>Horario</th>
+                                    <th>Especialidad</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="usuariosTable">
-                                <tr><td colspan="7" style="text-align: center;">Cargando...</td></tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Configuración -->
-            <div id="config" class="section">
+            <!-- Actos Section -->
+            <div class="section" id="actos">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Catálogo de Actos</h2>
+                    <button class="btn btn-primary" onclick="openModal('actoModal')">+ Nuevo Acto</button>
+                </div>
+
                 <div class="card">
-                    <h2>Configuración del Sistema</h2>
-                    
-                    <div class="alert alert-info">
-                        <strong>Estado:</strong> <span id="connectionStatus">🟢 Conectado</span><br>
-                        <strong>URL API:</strong> <span id="currentUrl" style="font-size: 12px; word-break: break-all;"></span>
+                    <div class="table-container">
+                        <table id="actosTable">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Duración (min)</th>
+                                    <th>Precio (€)</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                    
-                    <button class="btn btn-warning" onclick="testConnection()">🔧 Probar Conexión</button>
-                    <button class="btn btn-danger" onclick="changeConnection()">🔄 Cambiar URL de Conexión</button>
-                    
-                    <h3 style="margin-top: 30px;">Datos de la Clínica</h3>
-                    <form id="clinicaForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Nombre de la Clínica</label>
-                                <input type="text" class="form-control" id="clinicaNombre" value="FisioTur">
+                </div>
+            </div>
+
+            <!-- Facturación Section -->
+            <div class="section" id="facturacion">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Facturación</h2>
+                    <button class="btn btn-primary" onclick="openModal('facturaModal')">+ Nueva Factura</button>
+                </div>
+
+                <div class="card">
+                    <div class="search-bar">
+                        <input type="date" id="filtroFacturaDesde">
+                        <input type="date" id="filtroFacturaHasta">
+                        <select id="filtroFacturaEstado" onchange="filtrarFacturas()">
+                            <option value="">Todos los estados</option>
+                            <option value="Pagada">Pagadas</option>
+                            <option value="Pendiente">Pendientes</option>
+                            <option value="Vencida">Vencidas</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="filtrarFacturas()">Filtrar</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="facturasTable">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Fecha</th>
+                                    <th>Paciente</th>
+                                    <th>Concepto</th>
+                                    <th>Base</th>
+                                    <th>IVA</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuración Section -->
+            <div class="section" id="configuracion">
+                <h2>Configuración</h2>
+
+                <!-- Configuración de Empresa -->
+                <div class="card">
+                    <h3>Datos de la Empresa</h3>
+                    <form id="empresaForm">
+                        <div class="config-section">
+                            <h4>Información General</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nombre de la Empresa *</label>
+                                    <input type="text" id="empresaNombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>CIF/NIF *</label>
+                                    <input type="text" id="empresaCIF" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>CIF</label>
-                                <input type="text" class="form-control" id="clinicaCIF">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Dirección</label>
+                                    <input type="text" id="empresaDireccion">
+                                </div>
+                                <div class="form-group">
+                                    <label>Código Postal</label>
+                                    <input type="text" id="empresaCP">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Ciudad</label>
+                                    <input type="text" id="empresaCiudad">
+                                </div>
+                                <div class="form-group">
+                                    <label>Provincia</label>
+                                    <input type="text" id="empresaProvincia">
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Dirección</label>
-                            <input type="text" class="form-control" id="clinicaDireccion">
+
+                        <div class="config-section">
+                            <h4>Contacto</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Teléfono</label>
+                                    <input type="tel" id="empresaTelefono">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="empresaEmail">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Web</label>
+                                    <input type="url" id="empresaWeb">
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="tel" class="form-control" id="clinicaTelefono">
+
+                        <div class="config-section">
+                            <h4>Facturación</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>IVA por defecto (%)</label>
+                                    <input type="number" id="empresaIVA" value="21" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label>Forma de Pago por defecto</label>
+                                    <select id="empresaFormaPago">
+                                        <option value="Efectivo">Efectivo</option>
+                                        <option value="Tarjeta">Tarjeta</option>
+                                        <option value="Transferencia">Transferencia</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" class="form-control" id="clinicaEmail">
+                                <label>Observaciones en Factura</label>
+                                <textarea id="empresaObservaciones" rows="3"></textarea>
                             </div>
                         </div>
+
                         <button type="submit" class="btn btn-primary">Guardar Configuración</button>
                     </form>
-                    
-                    <h3 style="margin-top: 30px;">Información del Sistema</h3>
-                    <p>Versión: 3.0.1</p>
-                    <p>Última actualización: Diciembre 2024</p>
+                </div>
+
+                <!-- Gestión de Usuarios -->
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>Usuarios del Sistema</h3>
+                        <button class="btn btn-primary" onclick="openModal('usuarioModal')">+ Nuevo Usuario</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="usuariosTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Tipo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Configuración de Horarios -->
+                <div class="card">
+                    <h3>Horarios de Trabajo</h3>
+                    <form id="horariosForm">
+                        <div class="config-section">
+                            <div class="form-group">
+                                <label>Profesional</label>
+                                <select id="horarioProfesional" required>
+                                    <option value="">Seleccione...</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Lunes</label>
+                                    <input type="text" id="horarioLunes" placeholder="09:00-14:00, 16:00-20:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Martes</label>
+                                    <input type="text" id="horarioMartes" placeholder="09:00-14:00, 16:00-20:00">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Miércoles</label>
+                                    <input type="text" id="horarioMiercoles" placeholder="09:00-14:00, 16:00-20:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Jueves</label>
+                                    <input type="text" id="horarioJueves" placeholder="09:00-14:00, 16:00-20:00">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Viernes</label>
+                                    <input type="text" id="horarioViernes" placeholder="09:00-14:00, 16:00-20:00">
+                                </div>
+                                <div class="form-group">
+                                    <label>Sábado</label>
+                                    <input type="text" id="horarioSabado" placeholder="09:00-14:00">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Domingo</label>
+                                <input type="text" id="horarioDomingo" placeholder="Cerrado">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Horarios</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div id="modal" class="modal">
+    <!-- Modal: Nueva Cita -->
+    <div class="modal" id="citaModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">Título</h3>
-                <span class="close" onclick="closeModal()">&times;</span>
+                <h3>Nueva Cita</h3>
+                <button class="close-modal" onclick="closeModal('citaModal')">&times;</button>
             </div>
-            <div id="modalBody">
-                <!-- Contenido dinámico -->
+            <div class="modal-body">
+                <form id="citaForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fecha *</label>
+                            <input type="date" name="fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora *</label>
+                            <input type="time" name="hora" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Paciente *</label>
+                        <select name="pacienteId" required>
+                            <option value="">Seleccione un paciente...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Profesional *</label>
+                        <select name="profesional" required>
+                            <option value="">Seleccione un profesional...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Acto *</label>
+                        <select name="acto" required onchange="actualizarDuracionPrecio(this)">
+                            <option value="">Seleccione un acto...</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Duración (min) *</label>
+                            <input type="number" name="duracion" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio (€) *</label>
+                            <input type="number" name="precio" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Observaciones</label>
+                        <textarea name="observaciones" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('citaModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarCita()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Paciente -->
+    <div class="modal" id="pacienteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Paciente</h3>
+                <button class="close-modal" onclick="closeModal('pacienteModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="pacienteForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>DNI/NIE *</label>
+                            <input type="text" name="dni" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <input type="text" name="nombre" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Apellidos *</label>
+                            <input type="text" name="apellidos" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de Nacimiento</label>
+                            <input type="date" name="fechaNacimiento">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" name="telefono">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" name="direccion">
+                    </div>
+                    <div class="form-group">
+                        <label>Historial Médico</label>
+                        <textarea name="historial" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('pacienteModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarPaciente()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Profesional -->
+    <div class="modal" id="profesionalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Profesional</h3>
+                <button class="close-modal" onclick="closeModal('profesionalModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="profesionalForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <input type="text" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tipo *</label>
+                            <select name="tipo" required>
+                                <option value="Fisioterapeuta">Fisioterapeuta</option>
+                                <option value="Administrativo">Administrativo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Especialidad</label>
+                            <input type="text" name="especialidad">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" name="telefono">
+                        </div>
+                        <div class="form-group">
+                            <label>Num. Colegiado</label>
+                            <input type="text" name="numColegiado">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('profesionalModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarProfesional()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Acto -->
+    <div class="modal" id="actoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Acto</h3>
+                <button class="close-modal" onclick="closeModal('actoModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="actoForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Código *</label>
+                            <input type="text" name="codigo" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <input type="text" name="nombre" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo *</label>
+                        <select name="tipo" required>
+                            <option value="Fisioterapia">Fisioterapia</option>
+                            <option value="Osteopatía">Osteopatía</option>
+                            <option value="Masaje">Masaje</option>
+                            <option value="Readaptación">Readaptación</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Duración (minutos) *</label>
+                            <input type="number" name="duracion" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio (€) *</label>
+                            <input type="number" name="precio" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea name="descripcion" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('actoModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarActo()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Nueva Factura -->
+    <div class="modal" id="facturaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Factura</h3>
+                <button class="close-modal" onclick="closeModal('facturaModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="facturaForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fecha *</label>
+                            <input type="date" name="fecha" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Paciente *</label>
+                            <select name="pacienteId" required>
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Concepto *</label>
+                        <textarea name="concepto" rows="2" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Base Imponible (€) *</label>
+                            <input type="number" name="base" step="0.01" required onchange="calcularTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label>IVA (%) *</label>
+                            <input type="number" name="iva" value="21" step="0.01" required onchange="calcularTotal()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Total (€)</label>
+                        <input type="number" name="total" step="0.01" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Forma de Pago</label>
+                        <select name="formaPago">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('facturaModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarFactura()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Nuevo Usuario -->
+    <div class="modal" id="usuarioModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Usuario</h3>
+                <button class="close-modal" onclick="closeModal('usuarioModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="usuarioForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre *</label>
+                            <input type="text" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contraseña *</label>
+                            <input type="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo *</label>
+                            <select name="tipo" required>
+                                <option value="Administrativo">Administrativo</option>
+                                <option value="Fisioterapeuta">Fisioterapeuta</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('usuarioModal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarUsuario()">Guardar</button>
             </div>
         </div>
     </div>
 
     <script>
-        // =============================================
-        // VARIABLES GLOBALES
-        // =============================================
-        let SCRIPT_URL = localStorage.getItem('fisiogest_script_url') || '';
+        // ================================================
+        // CONFIGURACIÓN Y VARIABLES GLOBALES
+        // ================================================
+        
+        // IMPORTANTE: Reemplaza esta URL con la URL de tu Google Apps Script
+        const API_URL = 'TU_URL_DE_GOOGLE_APPS_SCRIPT_AQUI';
+        
+        // Variables globales
         let currentUser = null;
-        let currentWeek = new Date();
-        let dataCache = {
-            pacientes: [],
-            citas: [],
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let allData = {
             usuarios: [],
+            pacientes: [],
+            profesionales: [],
             actos: [],
+            citas: [],
             facturas: [],
+            empresa: {},
             horarios: []
         };
 
-        // =============================================
+        // ================================================
         // INICIALIZACIÓN
-        // =============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verificar si hay URL configurada
-            if (!SCRIPT_URL) {
-                document.getElementById('setupScreen').style.display = 'flex';
-                document.getElementById('loginScreen').style.display = 'none';
-            } else {
-                document.getElementById('currentUrl').textContent = SCRIPT_URL;
-                checkSavedSession();
-            }
-            
-            // Configurar fechas actuales
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('filtroCitas').value = today;
-            document.getElementById('weekSelector').value = today;
-            document.getElementById('filtroMesFactura').value = today.substring(0, 7);
-            
-            // Cargar configuración guardada de la clínica
-            const clinicaConfig = localStorage.getItem('clinicaConfig');
-            if (clinicaConfig) {
-                const config = JSON.parse(clinicaConfig);
-                document.getElementById('clinicaNombre').value = config.nombre || '';
-                document.getElementById('clinicaCIF').value = config.cif || '';
-                document.getElementById('clinicaDireccion').value = config.direccion || '';
-                document.getElementById('clinicaTelefono').value = config.telefono || '';
-                document.getElementById('clinicaEmail').value = config.email || '';
-            }
-        });
+        // ================================================
+        
+        window.onload = function() {
+            verificarConexion();
+            setupEventListeners();
+        };
 
-        // Setup Form
-        document.getElementById('setupForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const url = document.getElementById('scriptUrl').value.trim();
-            
-            // Validar URL
-            if (!url.includes('script.google.com')) {
-                alert('Por favor ingresa una URL válida de Google Apps Script');
-                return;
-            }
-            
-            // Guardar y continuar
-            SCRIPT_URL = url;
-            localStorage.setItem('fisiogest_script_url', url);
-            
-            document.getElementById('setupScreen').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'flex';
-        });
+        function setupEventListeners() {
+            document.getElementById('loginForm').addEventListener('submit', login);
+            document.getElementById('empresaForm').addEventListener('submit', guardarEmpresa);
+            document.getElementById('horariosForm').addEventListener('submit', guardarHorarios);
+        }
 
-        // =============================================
-        // LOGIN
-        // =============================================
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        // ================================================
+        // AUTENTICACIÓN
+        // ================================================
+
+        async function login(e) {
             e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
+            showLoading(true);
+
+            const usuario = document.getElementById('loginUser').value;
             const password = document.getElementById('loginPassword').value;
-            
+
             try {
-                // Leer usuarios
-                const usuarios = await readSheet('Usuarios');
+                await cargarDatos();
                 
-                // Buscar usuario
-                const user = usuarios.find(u => u[2] === email && u[3] === password);
-                
+                const user = allData.usuarios.find(u => 
+                    (u[2] === usuario || u[1] === usuario) && u[3] === password && u[8] === 'Activo'
+                );
+
                 if (user) {
                     currentUser = {
                         id: user[0],
@@ -995,821 +1467,364 @@
                         email: user[2],
                         tipo: user[4]
                     };
-                    
-                    // Guardar sesión
+
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                     
-                    // Mostrar app
-                    showApp();
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('appContainer').style.display = 'block';
+                    
+                    document.getElementById('currentUserName').textContent = currentUser.nombre;
+                    document.getElementById('currentUserType').textContent = currentUser.tipo;
+                    
+                    await inicializarApp();
                 } else {
-                    showLoginError('Usuario o contraseña incorrectos');
+                    showAlert('Usuario o contraseña incorrectos', 'danger', 'loginError');
                 }
             } catch (error) {
                 console.error('Error en login:', error);
-                showLoginError('Error de conexión. Verifica tu conexión a internet.');
+                showAlert('Error al iniciar sesión: ' + error.message, 'danger', 'loginError');
             }
-        });
 
-        function showLoginError(message) {
-            const div = document.getElementById('loginError');
-            div.textContent = message;
-            div.style.display = 'block';
-            setTimeout(() => div.style.display = 'none', 5000);
-        }
-
-        function showApp() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('userName').textContent = currentUser.nombre;
-            document.getElementById('userType').textContent = currentUser.tipo;
-            loadDashboard();
-            loadProfesionalesFilter();
-        }
-
-        function checkSavedSession() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showApp();
-            }
+            showLoading(false);
         }
 
         function logout() {
             localStorage.removeItem('currentUser');
             currentUser = null;
-            location.reload();
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPassword').value = '';
         }
 
-        // =============================================
-        // FUNCIONES API CORREGIDAS PARA EVITAR CORS
-        // =============================================
-        async function readSheet(sheetName) {
+        // ================================================
+        // GESTIÓN DE DATOS
+        // ================================================
+
+        async function verificarConexion() {
             try {
-                const url = `${SCRIPT_URL}?action=read&sheet=${sheetName}`;
-                const response = await fetch(url);
+                const response = await fetch(API_URL + '?action=test');
+                const data = await response.json();
                 
-                if (!response.ok) throw new Error('Error en respuesta');
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    return result.data || [];
-                } else {
-                    throw new Error(result.message || 'Error desconocido');
+                if (data.status !== 'success') {
+                    console.error('Error de conexión:', data.message);
                 }
             } catch (error) {
-                console.error('Error leyendo ' + sheetName + ':', error);
-                return [];
+                console.error('No se pudo conectar con el servidor:', error);
             }
         }
 
-        async function writeSheet(sheetName, action, data) {
-            try {
-                // Construir parámetros para GET
-                const params = new URLSearchParams({
-                    action: action,
-                    sheet: sheetName,
-                    data: JSON.stringify(data)
-                });
-                
-                const url = SCRIPT_URL + '?' + params.toString();
-                
-                const response = await fetch(url);
-                const text = await response.text();
-                
+        async function cargarDatos() {
+            const sheets = ['Usuarios', 'Pacientes', 'Profesionales', 'Actos', 'Citas', 'Facturas', 'Empresa', 'Horarios'];
+            
+            for (const sheet of sheets) {
                 try {
-                    const result = JSON.parse(text);
+                    const response = await fetch(API_URL + '?action=read&sheet=' + sheet);
+                    const result = await response.json();
+                    
                     if (result.status === 'success') {
-                        return true;
-                    } else {
-                        throw new Error(result.message || 'Error al guardar');
+                        allData[sheet.toLowerCase()] = result.data || [];
                     }
-                } catch (e) {
-                    console.error('Error parseando respuesta:', text);
-                    // Asumimos éxito si no hay error
-                    return true;
+                } catch (error) {
+                    console.error('Error cargando ' + sheet + ':', error);
                 }
+            }
+        }
+
+        async function guardarDato(sheet, data) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'add',
+                        sheet: sheet,
+                        data: data
+                    })
+                });
+
+                const result = await response.json();
+                return result.status === 'success';
             } catch (error) {
-                console.error('Error escribiendo en ' + sheetName + ':', error);
-                showNotification('Error al guardar: ' + error.message, 'error');
+                console.error('Error guardando en ' + sheet + ':', error);
                 return false;
             }
         }
 
-        // =============================================
-        // NAVEGACIÓN
-        // =============================================
-        function showSection(section, event) {
-            if (event) event.preventDefault();
-            
-            // Remover clases activas
-            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-            
-            // Activar sección actual
-            if (event && event.target) {
-                event.target.classList.add('active');
-            }
-            document.getElementById(section).classList.add('active');
-            
-            // Cargar datos de la sección
-            switch(section) {
-                case 'dashboard': loadDashboard(); break;
-                case 'agenda': loadAgenda(); break;
-                case 'pacientes': loadPacientes(); break;
-                case 'citas': loadCitas(); break;
-                case 'facturas': loadFacturas(); break;
-                case 'actos': loadActos(); break;
-                case 'usuarios': loadUsuarios(); break;
-            }
-        }
-
-        // =============================================
-        // DASHBOARD
-        // =============================================
-        async function loadDashboard() {
+        async function actualizarDato(sheet, id, data) {
             try {
-                const [pacientes, citas, usuarios, facturas] = await Promise.all([
-                    readSheet('Pacientes'),
-                    readSheet('Citas'),
-                    readSheet('Usuarios'),
-                    readSheet('Facturas')
-                ]);
-                
-                // Actualizar estadísticas
-                document.getElementById('statPacientes').textContent = pacientes.length;
-                document.getElementById('statProfesionales').textContent = usuarios.filter(u => u[4] !== 'Administrativo').length;
-                
-                // Citas de hoy y próximas
-                const hoy = new Date().toISOString().split('T')[0];
-                const citasHoy = citas.filter(c => c[1] === hoy);
-                document.getElementById('statCitasHoy').textContent = citasHoy.length;
-                
-                // Facturado del mes
-                const mes = new Date().toISOString().substring(0, 7);
-                const facturasMes = facturas.filter(f => f[2] && f[2].substring(0, 7) === mes);
-                const totalMes = facturasMes.reduce((sum, f) => sum + (parseFloat(f[8]) || 0), 0);
-                document.getElementById('statFacturasMes').textContent = totalMes.toFixed(2) + '€';
-                
-                // Tabla de próximas citas (hoy y mañana)
-                const mañana = new Date();
-                mañana.setDate(mañana.getDate() + 1);
-                const mañanaStr = mañana.toISOString().split('T')[0];
-                
-                const proximasCitas = citas.filter(c => 
-                    (c[1] === hoy || c[1] === mañanaStr) && c[9] !== 'Completada' && c[9] !== 'Cancelada'
-                ).sort((a, b) => (a[1] + a[2]).localeCompare(b[1] + b[2]));
-                
-                const tbody = document.getElementById('proximasCitasTable');
-                if (proximasCitas.length > 0) {
-                    tbody.innerHTML = proximasCitas.slice(0, 10).map(c => `
-                        <tr>
-                            <td>${formatDate(c[1])}</td>
-                            <td>${c[2] || ''}</td>
-                            <td>${c[4] || ''}</td>
-                            <td>${c[5] || ''}</td>
-                            <td>${c[6] || ''}</td>
-                            <td><span class="badge badge-${getStatusBadge(c[9])}">${c[9] || 'Pendiente'}</span></td>
-                        </tr>
-                    `).join('');
-                } else {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay citas próximas</td></tr>';
-                }
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'update',
+                        sheet: sheet,
+                        id: id,
+                        data: data
+                    })
+                });
+
+                const result = await response.json();
+                return result.status === 'success';
             } catch (error) {
-                console.error('Error cargando dashboard:', error);
+                console.error('Error actualizando ' + sheet + ':', error);
+                return false;
             }
         }
 
-        // =============================================
-        // AGENDA
-        // =============================================
-        async function loadAgenda() {
-            const [citas, usuarios, horarios] = await Promise.all([
-                readSheet('Citas'),
-                readSheet('Usuarios'),
-                readSheet('Horarios')
-            ]);
-            
-            dataCache.citas = citas;
-            dataCache.usuarios = usuarios;
-            dataCache.horarios = horarios;
-            
-            renderCalendar();
+        async function eliminarDato(sheet, id) {
+            if (!confirm('¿Está seguro de que desea eliminar este registro?')) {
+                return false;
+            }
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'delete',
+                        sheet: sheet,
+                        id: id
+                    })
+                });
+
+                const result = await response.json();
+                return result.status === 'success';
+            } catch (error) {
+                console.error('Error eliminando de ' + sheet + ':', error);
+                return false;
+            }
         }
 
-        function renderCalendar() {
-            const grid = document.getElementById('calendarGrid');
-            const weekStart = getWeekStart(currentWeek);
-            const profesionalFilter = document.getElementById('profesionalFilter').value;
+        // ================================================
+        // INICIALIZACIÓN DE LA APP
+        // ================================================
+
+        async function inicializarApp() {
+            await cargarDatos();
+            actualizarDashboard();
+            cargarTablaPacientes();
+            cargarTablaProfesionales();
+            cargarTablaActos();
+            cargarTablaFacturas();
+            cargarTablaUsuarios();
+            cargarAgenda();
+            cargarConfiguracionEmpresa();
+            poblarSelectsPacientes();
+            poblarSelectsProfesionales();
+            poblarSelectsActos();
+        }
+
+        // ================================================
+        // NAVEGACIÓN
+        // ================================================
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             
-            // Headers
-            let html = '<div class="calendar-header">Hora</div>';
-            const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (sectionId === 'agenda') {
+                cargarAgenda();
+            } else if (sectionId === 'dashboard') {
+                actualizarDashboard();
+            }
+        }
+
+        // ================================================
+        // DASHBOARD
+        // ================================================
+
+        function actualizarDashboard() {
+            const hoy = new Date().toISOString().split('T')[0];
+            const citasHoy = allData.citas.filter(c => c[1] === hoy);
+            const pacientesActivos = allData.pacientes.filter(p => p[7] === 'Activo');
             
-            for (let i = 0; i < 7; i++) {
-                const fecha = new Date(weekStart);
-                fecha.setDate(fecha.getDate() + i);
-                const fechaStr = fecha.toISOString().split('T')[0];
-                const isToday = fechaStr === new Date().toISOString().split('T')[0];
+            const mesActual = new Date().getMonth();
+            const añoActual = new Date().getFullYear();
+            const facturacionMes = allData.facturas
+                .filter(f => {
+                    const fecha = new Date(f[2]);
+                    return fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual;
+                })
+                .reduce((sum, f) => sum + parseFloat(f[8] || 0), 0);
+            
+            const pendientesCobro = allData.facturas
+                .filter(f => f[9] === 'Pendiente')
+                .reduce((sum, f) => sum + parseFloat(f[8] || 0), 0);
+
+            document.getElementById('statCitasHoy').textContent = citasHoy.length;
+            document.getElementById('statPacientes').textContent = pacientesActivos.length;
+            document.getElementById('statFacturacion').textContent = facturacionMes.toFixed(2) + '€';
+            document.getElementById('statPendientes').textContent = pendientesCobro.toFixed(2) + '€';
+
+            cargarProximasCitas();
+        }
+
+        function cargarProximasCitas() {
+            const tbody = document.querySelector('#proximasCitasTable tbody');
+            const hoy = new Date();
+            
+            const proximasCitas = allData.citas
+                .filter(c => {
+                    const fechaCita = new Date(c[1] + 'T' + c[2]);
+                    return fechaCita >= hoy;
+                })
+                .sort((a, b) => {
+                    const fechaA = new Date(a[1] + 'T' + a[2]);
+                    const fechaB = new Date(b[1] + 'T' + b[2]);
+                    return fechaA - fechaB;
+                })
+                .slice(0, 10);
+
+            tbody.innerHTML = proximasCitas.map(cita => {
+                const estado = cita[9] || 'Pendiente';
+                const badgeClass = estado === 'Confirmada' ? 'badge-success' : 
+                                  estado === 'Cancelada' ? 'badge-danger' : 'badge-warning';
                 
-                html += `<div class="calendar-header" ${isToday ? 'style="background:#48bb78"' : ''}>
-                    ${dias[i]}<br>${fecha.getDate()}/${fecha.getMonth() + 1}
+                return `
+                    <tr>
+                        <td>${formatearFecha(cita[1])}</td>
+                        <td>${cita[2]}</td>
+                        <td>${cita[4]}</td>
+                        <td>${cita[5]}</td>
+                        <td>${cita[6]}</td>
+                        <td><span class="badge ${badgeClass}">${estado}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ================================================
+        // AGENDA - CALENDARIO
+        // ================================================
+
+        function cargarAgenda() {
+            const vista = document.getElementById('vistaAgenda').value;
+            
+            if (vista === 'mes') {
+                cargarCalendarioMes();
+            } else if (vista === 'semana') {
+                cargarCalendarioSemana();
+            } else {
+                cargarCalendarioDia();
+            }
+
+            poblarFiltroProfesionales();
+        }
+
+        function cargarCalendarioMes() {
+            const calendar = document.getElementById('calendar');
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const prevLastDay = new Date(currentYear, currentMonth, 0);
+            
+            const firstDayWeek = firstDay.getDay() || 7;
+            const lastDayNum = lastDay.getDate();
+            const prevLastDayNum = prevLastDay.getDate();
+            
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            
+            document.getElementById('mesActual').textContent = 
+                monthNames[currentMonth] + ' ' + currentYear;
+
+            const filtroProfesional = document.getElementById('filtroProfesional').value;
+            const citasMes = allData.citas.filter(c => {
+                const fechaCita = new Date(c[1]);
+                const cumpleFecha = fechaCita.getMonth() === currentMonth && 
+                                   fechaCita.getFullYear() === currentYear;
+                const cumpleProfesional = !filtroProfesional || c[5] === filtroProfesional;
+                return cumpleFecha && cumpleProfesional;
+            });
+
+            let html = `
+                <div class="calendar-day-header">Lun</div>
+                <div class="calendar-day-header">Mar</div>
+                <div class="calendar-day-header">Mié</div>
+                <div class="calendar-day-header">Jue</div>
+                <div class="calendar-day-header">Vie</div>
+                <div class="calendar-day-header">Sáb</div>
+                <div class="calendar-day-header">Dom</div>
+            `;
+
+            for (let i = firstDayWeek - 1; i > 0; i--) {
+                html += `<div class="calendar-day other-month">
+                    <div class="calendar-day-number">${prevLastDayNum - i + 1}</div>
                 </div>`;
             }
-            
-            // Time slots
-            for (let hora = 8; hora < 21; hora++) {
-                for (let min = 0; min < 60; min += 30) {
-                    const timeStr = `${hora.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
-                    html += `<div class="time-label">${timeStr}</div>`;
-                    
-                    for (let dia = 0; dia < 7; dia++) {
-                        const fecha = new Date(weekStart);
-                        fecha.setDate(fecha.getDate() + dia);
-                        const fechaStr = fecha.toISOString().split('T')[0];
-                        
-                        // Verificar disponibilidad de profesionales en este horario
-                        let hayProfesionalDisponible = false;
-                        
-                        if (profesionalFilter) {
-                            // Si hay filtro, verificar solo ese profesional
-                            const usuario = dataCache.usuarios.find(u => u[1] === profesionalFilter);
-                            if (usuario) {
-                                const horarioProfesional = dataCache.horarios.find(h => h[0] === usuario[0]);
-                                hayProfesionalDisponible = verificarDisponibilidad(horarioProfesional, dia, timeStr);
-                            }
-                        } else {
-                            // Sin filtro, verificar si hay AL MENOS UN profesional disponible
-                            const profesionales = dataCache.usuarios.filter(u => 
-                                u[4] === 'Fisioterapeuta' || u[4] === 'Entrenador'
-                            );
-                            
-                            for (const prof of profesionales) {
-                                const horarioProfesional = dataCache.horarios.find(h => h[0] === prof[0]);
-                                if (verificarDisponibilidad(horarioProfesional, dia, timeStr)) {
-                                    hayProfesionalDisponible = true;
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        // Buscar citas para este slot
-                        const citasSlot = dataCache.citas.filter(c => 
-                            c[1] === fechaStr && 
-                            c[2] && c[2].substring(0, 5) === timeStr &&
-                            (!profesionalFilter || c[5] === profesionalFilter)
-                        );
-                        
-                        let slotContent = '';
-                        if (citasSlot.length > 0) {
-                            slotContent = citasSlot.map(c => {
-                                const statusIcon = c[9] === 'Confirmada' ? '🟢' : 
-                                                   c[9] === 'Completada' ? '⚫' :
-                                                   c[9] === 'Cancelada' ? '🔴' : '🟡';
-                                return `<div class="appointment ${c[9] ? c[9].toLowerCase() : 'pending'}" 
-                                        onclick="verCita('${c[0]}')">
-                                        ${statusIcon} ${c[4] ? c[4].split(' ')[0] : 'Sin nombre'}
-                                        <br>${c[5] ? c[5].split(' ')[0] : ''}
-                                    </div>`;
-                            }).join('');
-                        }
-                        
-                        // Aplicar estilo según disponibilidad
-                        const slotStyle = !hayProfesionalDisponible ? 
-                            'style="background:#f5f5f5; cursor:not-allowed;"' : '';
-                        
-                        const onclickAction = hayProfesionalDisponible ? 
-                            `onclick="nuevaCitaRapida('${fechaStr}', '${timeStr}')"` : 
-                            `onclick="alert('No hay profesionales disponibles en este horario')"`;
-                        
-                        html += `<div class="time-slot" ${slotStyle} ${onclickAction}>
-                            ${slotContent}
-                            ${!hayProfesionalDisponible && !slotContent ? 
-                                '<span style="color:#ccc; font-size:10px;">No disponible</span>' : ''}
-                        </div>`;
-                    }
-                }
-            }
-            
-            grid.innerHTML = html;
-        }
-        
-        // Función auxiliar para verificar disponibilidad
-        function verificarDisponibilidad(horarioProfesional, diaIndex, timeStr) {
-            if (!horarioProfesional || !horarioProfesional[diaIndex + 1]) return false;
-            
-            const [rangoManana, rangoTarde] = horarioProfesional[diaIndex + 1].split(',');
-            const horaNum = parseInt(timeStr.replace(':', ''));
-            
-            if (rangoManana && rangoManana.includes('-')) {
-                const [inicioM, finM] = rangoManana.split('-');
-                const inicioManana = parseInt(inicioM.replace(':', ''));
-                const finManana = parseInt(finM.replace(':', ''));
-                if (horaNum >= inicioManana && horaNum < finManana) return true;
-            }
-            
-            if (rangoTarde && rangoTarde.includes('-')) {
-                const [inicioT, finT] = rangoTarde.split('-');
-                const inicioTarde = parseInt(inicioT.replace(':', ''));
-                const finTarde = parseInt(finT.replace(':', ''));
-                if (horaNum >= inicioTarde && horaNum < finTarde) return true;
-            }
-            
-            return false;
-        }
 
-        function getWeekStart(date) {
-            const d = new Date(date);
-            const day = d.getDay();
-            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-            return new Date(d.setDate(diff));
-        }
+            const hoy = new Date();
+            const esHoy = (dia) => 
+                dia === hoy.getDate() && 
+                currentMonth === hoy.getMonth() && 
+                currentYear === hoy.getFullYear();
 
-        function previousWeek() {
-            currentWeek.setDate(currentWeek.getDate() - 7);
-            document.getElementById('weekSelector').value = currentWeek.toISOString().split('T')[0];
-            renderCalendar();
-        }
-
-        function nextWeek() {
-            currentWeek.setDate(currentWeek.getDate() + 7);
-            document.getElementById('weekSelector').value = currentWeek.toISOString().split('T')[0];
-            renderCalendar();
-        }
-
-        document.getElementById('weekSelector').addEventListener('change', function() {
-            currentWeek = new Date(this.value);
-            renderCalendar();
-        });
-
-        document.getElementById('profesionalFilter').addEventListener('change', function() {
-            renderCalendar();
-        });
-
-        async function loadProfesionalesFilter() {
-            const usuarios = await readSheet('Usuarios');
-            const select = document.getElementById('profesionalFilter');
-            select.innerHTML = '<option value="">Todos los profesionales</option>' +
-                usuarios.filter(u => u[4] === 'Fisioterapeuta' || u[4] === 'Entrenador')
-                    .map(u => `<option value="${u[1]}">${u[1]}</option>`).join('');
-        }
-
-        function nuevaCitaRapida(fecha, hora) {
-            // Pre-cargar datos y luego abrir modal con fecha y hora
-            nuevaCita(fecha, hora);
-        }
-
-        // =============================================
-        // PACIENTES
-        // =============================================
-        async function loadPacientes() {
-            const pacientes = await readSheet('Pacientes');
-            dataCache.pacientes = pacientes;
-            
-            const tbody = document.getElementById('pacientesTable');
-            if (pacientes.length > 0) {
-                tbody.innerHTML = pacientes.map(p => `
-                    <tr>
-                        <td>${p[1] || ''}</td>
-                        <td>${p[2] || ''} ${p[3] || ''}</td>
-                        <td>${p[4] || ''}</td>
-                        <td>${p[5] || ''}</td>
-                        <td>${p[10] || '-'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-info" onclick="editarPaciente('${p[0]}')">✏️</button>
-                            <button class="btn btn-sm btn-warning" onclick="verHistorial('${p[0]}')">📋</button>
-                            <button class="btn btn-sm btn-danger" onclick="eliminarPaciente('${p[0]}')">🗑️</button>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay pacientes registrados</td></tr>';
-            }
-        }
-
-        function nuevoPaciente(pacienteId = null) {
-            const paciente = pacienteId ? dataCache.pacientes.find(p => p[0] === pacienteId) : null;
-            const isEdit = !!paciente;
-            
-            const html = `
-                <form id="formPaciente" onsubmit="guardarPaciente(event, '${pacienteId || ''}')">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>DNI/NIE *</label>
-                            <input type="text" class="form-control" name="dni" required maxlength="15" 
-                                   value="${paciente ? paciente[1] : ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha Nacimiento</label>
-                            <input type="date" class="form-control" name="fechaNac" 
-                                   value="${paciente ? paciente[6] : ''}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nombre *</label>
-                            <input type="text" class="form-control" name="nombre" required 
-                                   value="${paciente ? paciente[2] : ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>Apellidos *</label>
-                            <input type="text" class="form-control" name="apellidos" required 
-                                   value="${paciente ? paciente[3] : ''}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Teléfono *</label>
-                            <input type="tel" class="form-control" name="telefono" required 
-                                   value="${paciente ? paciente[4] : ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" name="email" 
-                                   value="${paciente ? paciente[5] : ''}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Dirección</label>
-                        <input type="text" class="form-control" name="direccion" 
-                               value="${paciente ? paciente[7] : ''}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Alergias</label>
-                        <textarea class="form-control" name="alergias" rows="2">${paciente ? paciente[8] || '' : ''}</textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Observaciones</label>
-                        <textarea class="form-control" name="observaciones" rows="2">${paciente ? paciente[9] || '' : ''}</textarea>
-                    </div>
-                    
-                    <div style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">${isEdit ? 'Actualizar' : 'Guardar'}</button>
-                    </div>
-                </form>
-            `;
-            
-            openModal(isEdit ? 'Editar Paciente' : 'Nuevo Paciente', html);
-        }
-
-        function editarPaciente(id) {
-            nuevoPaciente(id);
-        }
-
-        async function guardarPaciente(event, pacienteId) {
-            event.preventDefault();
-            const form = event.target;
-            
-            const valores = {
-                values: [
-                    pacienteId || 'P' + Date.now(),
-                    form.dni.value,
-                    form.nombre.value,
-                    form.apellidos.value,
-                    form.telefono.value,
-                    form.email.value || '',
-                    form.fechaNac.value || '',
-                    form.direccion.value || '',
-                    form.alergias.value || '',
-                    form.observaciones.value || '',
-                    new Date().toISOString().split('T')[0],
-                    'Activo'
-                ]
-            };
-            
-            const action = pacienteId ? 'update' : 'add';
-            if (pacienteId) {
-                valores.id = pacienteId;
-            }
-            
-            const success = await writeSheet('Pacientes', action, valores);
-            
-            if (success) {
-                closeModal();
-                loadPacientes();
-                showNotification(pacienteId ? 'Paciente actualizado' : 'Paciente guardado', 'success');
-            }
-        }
-
-        function verHistorial(pacienteId) {
-            const paciente = dataCache.pacientes.find(p => p[0] === pacienteId);
-            const citasPaciente = dataCache.citas ? dataCache.citas.filter(c => c[3] === pacienteId) : [];
-            
-            const html = `
-                <h4>Historial de ${paciente[2]} ${paciente[3]}</h4>
-                <p><strong>DNI:</strong> ${paciente[1]}</p>
-                <p><strong>Teléfono:</strong> ${paciente[4]}</p>
-                <p><strong>Email:</strong> ${paciente[5] || '-'}</p>
-                ${paciente[8] ? `<p><strong>Alergias:</strong> ${paciente[8]}</p>` : ''}
-                ${paciente[9] ? `<p><strong>Observaciones:</strong> ${paciente[9]}</p>` : ''}
+            for (let dia = 1; dia <= lastDayNum; dia++) {
+                const fecha = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+                const citasDia = citasMes.filter(c => c[1] === fecha);
                 
-                <h5 style="margin-top: 20px;">Últimas Citas:</h5>
-                <table style="width: 100%; font-size: 12px;">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Profesional</th>
-                            <th>Tratamiento</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${citasPaciente.length > 0 ? 
-                            citasPaciente.slice(-10).reverse().map(c => `
-                                <tr>
-                                    <td>${formatDate(c[1])}</td>
-                                    <td>${c[5] || ''}</td>
-                                    <td>${c[6] || ''}</td>
-                                    <td><span class="badge badge-${getStatusBadge(c[9])}">${c[9] || ''}</span></td>
-                                </tr>
-                            `).join('') : 
-                            '<tr><td colspan="4" style="text-align: center;">Sin citas registradas</td></tr>'
-                        }
-                    </tbody>
-                </table>
-            `;
-            
-            openModal('Historial del Paciente', html);
-        }
-
-        async function eliminarPaciente(id) {
-            if (confirm('¿Estás seguro de eliminar este paciente? Esta acción no se puede deshacer.')) {
-                const success = await writeSheet('Pacientes', 'delete', { id: id });
-                if (success) {
-                    loadPacientes();
-                    showNotification('Paciente eliminado', 'success');
-                }
-            }
-        }
-
-        // =============================================
-        // CITAS
-        // =============================================
-        async function loadCitas() {
-            const citas = await readSheet('Citas');
-            dataCache.citas = citas;
-            const filtroFecha = document.getElementById('filtroCitas').value;
-            const filtroEstado = document.getElementById('filtroEstadoCita').value;
-            
-            let citasFiltradas = citas;
-            
-            if (filtroFecha) {
-                citasFiltradas = citasFiltradas.filter(c => c[1] === filtroFecha);
-            }
-            
-            if (filtroEstado) {
-                citasFiltradas = citasFiltradas.filter(c => c[9] === filtroEstado);
-            }
-            
-            const tbody = document.getElementById('citasTable');
-            if (citasFiltradas.length > 0) {
-                tbody.innerHTML = citasFiltradas.map(c => `
-                    <tr>
-                        <td>${formatDate(c[1])}</td>
-                        <td>${c[2] || ''}</td>
-                        <td>${c[4] || ''}</td>
-                        <td>${c[5] || ''}</td>
-                        <td>${c[6] || ''}</td>
-                        <td>${c[8] || 0}€</td>
-                        <td><span class="badge badge-${getStatusBadge(c[9])}">${c[9] || 'Pendiente'}</span></td>
-                        <td>
-                            ${c[9] === 'Pendiente' ? 
-                                `<button class="btn btn-sm btn-success" onclick="confirmarCita('${c[0]}')">✔</button>` : ''}
-                            ${c[9] === 'Confirmada' ? 
-                                `<button class="btn btn-sm btn-info" onclick="completarCita('${c[0]}')">✔</button>` : ''}
-                            ${c[9] === 'Completada' ? 
-                                `<button class="btn btn-sm btn-warning" onclick="facturarCita('${c[0]}')">💰</button>` : ''}
-                            ${c[9] !== 'Cancelada' ? 
-                                `<button class="btn btn-sm btn-danger" onclick="cancelarCita('${c[0]}')">✖</button>` : ''}
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay citas para mostrar</td></tr>';
-            }
-        }
-
-        async function nuevaCita(fecha = '', hora = '') {
-            // Cargar datos necesarios
-            await loadPacientes();
-            const usuarios = await readSheet('Usuarios');
-            const actos = await readSheet('Actos');
-            const horarios = await readSheet('Horarios');
-            dataCache.horarios = horarios;
-            
-            // Filtrar profesionales disponibles en esa fecha y hora si se especifican
-            let profesionalesDisponibles = usuarios.filter(u => u[4] === 'Fisioterapeuta' || u[4] === 'Entrenador');
-            
-            if (fecha && hora) {
-                const diaSemana = new Date(fecha).getDay();
-                const diaIndex = diaSemana === 0 ? 6 : diaSemana - 1; // Convertir domingo de 0 a 6
-                
-                profesionalesDisponibles = profesionalesDisponibles.filter(prof => {
-                    const horarioProfesional = horarios.find(h => h[0] === prof[0]);
-                    if (!horarioProfesional || !horarioProfesional[diaIndex + 1]) return false;
-                    
-                    const [rangoManana, rangoTarde] = horarioProfesional[diaIndex + 1].split(',');
-                    
-                    // Verificar si la hora está en alguno de los rangos
-                    const horaNum = parseInt(hora.replace(':', ''));
-                    
-                    if (rangoManana) {
-                        const [inicioM, finM] = rangoManana.split('-');
-                        const inicioManana = parseInt(inicioM.replace(':', ''));
-                        const finManana = parseInt(finM.replace(':', ''));
-                        if (horaNum >= inicioManana && horaNum < finManana) return true;
-                    }
-                    
-                    if (rangoTarde) {
-                        const [inicioT, finT] = rangoTarde.split('-');
-                        const inicioTarde = parseInt(inicioT.replace(':', ''));
-                        const finTarde = parseInt(finT.replace(':', ''));
-                        if (horaNum >= inicioTarde && horaNum < finTarde) return true;
-                    }
-                    
-                    return false;
-                });
-            }
-            
-            const html = `
-                <form id="formCita" onsubmit="guardarCita(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Fecha *</label>
-                            <input type="date" class="form-control" name="fecha" required 
-                                   value="${fecha || new Date().toISOString().split('T')[0]}"
-                                   onchange="actualizarProfesionalesDisponibles(this.value, document.querySelector('[name=hora]').value)">
-                        </div>
-                        <div class="form-group">
-                            <label>Hora *</label>
-                            <input type="time" class="form-control" name="hora" required value="${hora || '10:00'}"
-                                   onchange="actualizarProfesionalesDisponibles(document.querySelector('[name=fecha]').value, this.value)">
-                        </div>
+                html += `
+                    <div class="calendar-day ${esHoy(dia) ? 'today' : ''}" onclick="verCitasDia('${fecha}')">
+                        <div class="calendar-day-number">${dia}</div>
+                        ${citasDia.map(cita => `
+                            <div class="appointment-item" title="${cita[4]} - ${cita[2]}">
+                                ${cita[2]} ${cita[4]}
+                            </div>
+                        `).join('')}
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Paciente *</label>
-                        <select class="form-control" name="pacienteId" required>
-                            <option value="">Seleccionar...</option>
-                            ${dataCache.pacientes.map(p => 
-                                `<option value="${p[0]}">${p[2]} ${p[3]} - ${p[1]}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Profesional * ${fecha && hora && profesionalesDisponibles.length === 0 ? 
-                            '<span style="color: red;">(No hay profesionales disponibles en este horario)</span>' : ''}</label>
-                        <select class="form-control" name="profesionalId" id="selectProfesionalCita" required>
-                            <option value="">Seleccionar...</option>
-                            ${profesionalesDisponibles.map(u => 
-                                `<option value="${u[0]}">${u[1]} - ${u[4]}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Tratamiento *</label>
-                        <select class="form-control" name="actoId" required onchange="updatePrecioCita(this)">
-                            <option value="">Seleccionar...</option>
-                            ${actos.map(a => `
-                                <option value="${a[0]}" data-duracion="${a[3]}" data-precio="${a[4]}" data-nombre="${a[1]}">
-                                    ${a[1]} - ${a[4]}€ (${a[3]} min)
-                                </option>
-                            `).join('')}
-                        </select>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Duración (min)</label>
-                            <input type="number" class="form-control" name="duracion" id="duracionCita" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Precio (€)</label>
-                            <input type="number" step="0.01" class="form-control" name="precio" id="precioCita">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Observaciones</label>
-                        <textarea class="form-control" name="observaciones" rows="2"></textarea>
-                    </div>
-                    
-                    <div style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Cita</button>
-                    </div>
-                </form>
-            `;
-            
-            openModal('Nueva Cita', html);
-        }
-        
-        // Función para actualizar profesionales disponibles cuando cambie fecha/hora
-        async function actualizarProfesionalesDisponibles(fecha, hora) {
-            if (!fecha || !hora) return;
-            
-            const usuarios = await readSheet('Usuarios');
-            const horarios = await readSheet('Horarios');
-            
-            const diaSemana = new Date(fecha).getDay();
-            const diaIndex = diaSemana === 0 ? 6 : diaSemana - 1;
-            
-            let profesionalesDisponibles = usuarios.filter(u => u[4] === 'Fisioterapeuta' || u[4] === 'Entrenador');
-            
-            profesionalesDisponibles = profesionalesDisponibles.filter(prof => {
-                const horarioProfesional = horarios.find(h => h[0] === prof[0]);
-                if (!horarioProfesional || !horarioProfesional[diaIndex + 1]) return false;
-                
-                const [rangoManana, rangoTarde] = horarioProfesional[diaIndex + 1].split(',');
-                
-                const horaNum = parseInt(hora.replace(':', ''));
-                
-                if (rangoManana && rangoManana.includes('-')) {
-                    const [inicioM, finM] = rangoManana.split('-');
-                    const inicioManana = parseInt(inicioM.replace(':', ''));
-                    const finManana = parseInt(finM.replace(':', ''));
-                    if (horaNum >= inicioManana && horaNum < finManana) return true;
-                }
-                
-                if (rangoTarde && rangoTarde.includes('-')) {
-                    const [inicioT, finT] = rangoTarde.split('-');
-                    const inicioTarde = parseInt(inicioT.replace(':', ''));
-                    const finTarde = parseInt(finT.replace(':', ''));
-                    if (horaNum >= inicioTarde && horaNum < finTarde) return true;
-                }
-                
-                return false;
-            });
-            
-            // Actualizar el select de profesionales
-            const select = document.getElementById('selectProfesionalCita');
-            if (select) {
-                select.innerHTML = '<option value="">Seleccionar...</option>' +
-                    profesionalesDisponibles.map(u => 
-                        `<option value="${u[0]}">${u[1]} - ${u[4]}</option>`
-                    ).join('');
-                    
-                // Actualizar label si no hay profesionales
-                const label = select.previousElementSibling;
-                if (label) {
-                    if (profesionalesDisponibles.length === 0) {
-                        label.innerHTML = 'Profesional * <span style="color: red;">(No hay profesionales disponibles en este horario)</span>';
-                    } else {
-                        label.innerHTML = 'Profesional *';
-                    }
-                }
-            }
-        }
-
-        function verCita(citaId) {
-            const cita = dataCache.citas.find(c => c[0] === citaId);
-            if (cita) {
-                const html = `
-                    <p><strong>Fecha:</strong> ${formatDate(cita[1])}</p>
-                    <p><strong>Hora:</strong> ${cita[2]}</p>
-                    <p><strong>Paciente:</strong> ${cita[4]}</p>
-                    <p><strong>Profesional:</strong> ${cita[5]}</p>
-                    <p><strong>Tratamiento:</strong> ${cita[6]}</p>
-                    <p><strong>Precio:</strong> ${cita[8]}€</p>
-                    <p><strong>Estado:</strong> <span class="badge badge-${getStatusBadge(cita[9])}">${cita[9]}</span></p>
-                    ${cita[10] ? `<p><strong>Observaciones:</strong> ${cita[10]}</p>` : ''}
                 `;
-                openModal('Detalles de la Cita', html);
             }
+
+            const nextDays = (7 - ((firstDayWeek - 1 + lastDayNum) % 7)) % 7;
+            for (let i = 1; i <= nextDays; i++) {
+                html += `<div class="calendar-day other-month">
+                    <div class="calendar-day-number">${i}</div>
+                </div>`;
+            }
+
+            calendar.innerHTML = html;
         }
 
-        function updatePrecioCita(select) {
-            const option = select.options[select.selectedIndex];
-            if (option && option.dataset) {
-                document.getElementById('duracionCita').value = option.dataset.duracion || '';
-                document.getElementById('precioCita').value = option.dataset.precio || '';
+        function cambiarMes(delta) {
+            currentMonth += delta;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
             }
+            cargarAgenda();
         }
 
-        async function guardarCita(event) {
-            event.preventDefault();
-            const form = event.target;
+        function verCitasDia(fecha) {
+            alert('Ver citas del día: ' + formatearFecha(fecha));
+        }
+
+        // ================================================
+        // GESTIÓN DE CITAS
+        // ================================================
+
+        async function guardarCita() {
+            showLoading(true);
+            const form = document.getElementById('citaForm');
             
-            // Obtener datos seleccionados
-            const paciente = dataCache.pacientes.find(p => p[0] === form.pacienteId.value);
-            const profesionalSelect = form.profesionalId;
-            const profesional = profesionalSelect.options[profesionalSelect.selectedIndex].text;
-            const actoSelect = form.actoId;
-            const acto = actoSelect.options[actoSelect.selectedIndex].dataset.nombre;
-            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showLoading(false);
+                return;
+            }
+
+            // CORRECCIÓN CRÍTICA: No convertir las fechas, usarlas directamente
+            const paciente = allData.pacientes.find(p => p[0] === form.pacienteId.value);
+            const profesional = form.profesional.value;
+            const acto = form.acto.value;
+
             const valores = {
                 values: [
                     'C' + Date.now(),
-                    form.fecha.value,
-                    form.hora.value,
+                    form.fecha.value,  // Usar directamente el valor del input (formato YYYY-MM-DD)
+                    form.hora.value,   // Usar directamente el valor del input (formato HH:MM)
                     form.pacienteId.value,
                     paciente ? `${paciente[2]} ${paciente[3]}` : '',
                     profesional,
@@ -1821,743 +1836,742 @@
                     new Date().toISOString()
                 ]
             };
-            
-            const success = await writeSheet('Citas', 'add', valores);
-            
+
+            const success = await guardarDato('Citas', valores.values);
+
             if (success) {
-                closeModal();
-                loadCitas();
-                loadAgenda();
-                showNotification('Cita guardada correctamente', 'success');
+                alert('Cita guardada correctamente');
+                closeModal('citaModal');
+                form.reset();
+                await cargarDatos();
+                cargarAgenda();
+                actualizarDashboard();
+            } else {
+                alert('Error al guardar la cita');
+            }
+
+            showLoading(false);
+        }
+
+        function actualizarDuracionPrecio(select) {
+            const actoId = select.value;
+            const acto = allData.actos.find(a => a[1] === actoId);
+            
+            if (acto) {
+                const form = select.closest('form');
+                form.duracion.value = acto[3];
+                form.precio.value = acto[4];
             }
         }
 
-        async function confirmarCita(id) {
-            const success = await writeSheet('Citas', 'update', { 
-                id: id, 
-                column: 10, 
-                value: 'Confirmada' 
-            });
-            
-            if (success) {
-                loadCitas();
-                showNotification('Cita confirmada', 'success');
-            }
-        }
+        // ================================================
+        // GESTIÓN DE PACIENTES
+        // ================================================
 
-        async function completarCita(id) {
-            const success = await writeSheet('Citas', 'update', { 
-                id: id, 
-                column: 10, 
-                value: 'Completada' 
-            });
-            
-            if (success) {
-                loadCitas();
-                showNotification('Cita completada', 'success');
-            }
-        }
-
-        async function cancelarCita(id) {
-            if (confirm('¿Estás seguro de cancelar esta cita?')) {
-                const success = await writeSheet('Citas', 'update', { 
-                    id: id, 
-                    column: 10, 
-                    value: 'Cancelada' 
-                });
+        function cargarTablaPacientes() {
+            const tbody = document.querySelector('#pacientesTable tbody');
+            tbody.innerHTML = allData.pacientes.map(p => {
+                const estado = p[7] || 'Activo';
+                const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
                 
-                if (success) {
-                    loadCitas();
-                    loadAgenda();
-                    showNotification('Cita cancelada', 'success');
-                }
-            }
-        }
-
-        function facturarCita(citaId) {
-            const cita = dataCache.citas.find(c => c[0] === citaId);
-            if (cita) {
-                nuevaFacturaDesdeCita(cita);
-            }
-        }
-
-        // =============================================
-        // FACTURAS
-        // =============================================
-        
-        // Función para calcular total de factura - DEBE ESTAR FUERA
-        function calcularTotal() {
-            const form = document.getElementById('formFactura');
-            if (form) {
-                const base = parseFloat(form.base.value) || 0;
-                const ivaPct = parseFloat(form.iva.value) || 0;
-                const iva = base * ivaPct / 100;
-                form.total.value = (base + iva).toFixed(2);
-            }
-        }
-        
-        async function loadFacturas() {
-            const facturas = await readSheet('Facturas');
-            dataCache.facturas = facturas;
-            
-            const filtroMes = document.getElementById('filtroMesFactura').value;
-            let facturasFiltradas = facturas;
-            
-            if (filtroMes) {
-                facturasFiltradas = facturas.filter(f => 
-                    f[2] && f[2].substring(0, 7) === filtroMes
-                );
-            }
-            
-            const tbody = document.getElementById('facturasTable');
-            if (facturasFiltradas.length > 0) {
-                tbody.innerHTML = facturasFiltradas.map(f => `
+                return `
                     <tr>
-                        <td>${f[1] || ''}</td>
-                        <td>${formatDate(f[2])}</td>
-                        <td>${f[4] || ''}</td>
-                        <td>${f[5] || ''}</td>
-                        <td>${f[6] || 0}€</td>
-                        <td>${f[7] || 0}€</td>
-                        <td><strong>${f[8] || 0}€</strong></td>
-                        <td><span class="badge badge-${f[9] === 'Pagada' ? 'success' : 'warning'}">${f[9] || 'Pendiente'}</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-info" onclick="verFactura('${f[0]}')">👁️</button>
-                            <button class="btn btn-sm btn-success" onclick="imprimirFactura('${f[0]}')">🖨️</button>
-                            ${f[9] !== 'Pagada' ? 
-                                `<button class="btn btn-sm btn-warning" onclick="marcarPagada('${f[0]}')">💰</button>` : ''}
+                        <td>${p[1]}</td>
+                        <td>${p[2]}</td>
+                        <td>${p[3]}</td>
+                        <td>${p[5] || '-'}</td>
+                        <td>${p[6] || '-'}</td>
+                        <td><span class="badge ${badgeClass}">${estado}</span></td>
+                        <td class="actions">
+                            <button class="btn btn-info btn-sm" onclick="verHistorial('${p[0]}')">Historial</button>
+                            <button class="btn btn-warning btn-sm" onclick="editarPaciente('${p[0]}')">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarPaciente('${p[0]}')">Eliminar</button>
                         </td>
                     </tr>
-                `).join('');
+                `;
+            }).join('');
+        }
+
+        async function guardarPaciente() {
+            showLoading(true);
+            const form = document.getElementById('pacienteForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showLoading(false);
+                return;
+            }
+
+            const valores = {
+                values: [
+                    'P' + Date.now(),
+                    form.dni.value,
+                    form.nombre.value,
+                    form.apellidos.value,
+                    form.fechaNacimiento.value || '',
+                    form.telefono.value || '',
+                    form.email.value || '',
+                    'Activo',
+                    form.direccion.value || '',
+                    form.historial.value || '',
+                    new Date().toISOString()
+                ]
+            };
+
+            const success = await guardarDato('Pacientes', valores.values);
+
+            if (success) {
+                alert('Paciente guardado correctamente');
+                closeModal('pacienteModal');
+                form.reset();
+                await cargarDatos();
+                cargarTablaPacientes();
+                poblarSelectsPacientes();
+                actualizarDashboard();
             } else {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">No hay facturas para mostrar</td></tr>';
+                alert('Error al guardar el paciente');
+            }
+
+            showLoading(false);
+        }
+
+        function filtrarPacientes() {
+            const search = document.getElementById('searchPaciente').value.toLowerCase();
+            const estado = document.getElementById('filtroPacienteEstado').value;
+            
+            const tbody = document.querySelector('#pacientesTable tbody');
+            const pacientesFiltrados = allData.pacientes.filter(p => {
+                const cumpleTexto = !search || 
+                    p[1].toLowerCase().includes(search) || 
+                    p[2].toLowerCase().includes(search) || 
+                    p[3].toLowerCase().includes(search);
+                const cumpleEstado = !estado || p[7] === estado;
+                return cumpleTexto && cumpleEstado;
+            });
+
+            tbody.innerHTML = pacientesFiltrados.map(p => {
+                const estadoPaciente = p[7] || 'Activo';
+                const badgeClass = estadoPaciente === 'Activo' ? 'badge-success' : 'badge-danger';
+                
+                return `
+                    <tr>
+                        <td>${p[1]}</td>
+                        <td>${p[2]}</td>
+                        <td>${p[3]}</td>
+                        <td>${p[5] || '-'}</td>
+                        <td>${p[6] || '-'}</td>
+                        <td><span class="badge ${badgeClass}">${estadoPaciente}</span></td>
+                        <td class="actions">
+                            <button class="btn btn-info btn-sm" onclick="verHistorial('${p[0]}')">Historial</button>
+                            <button class="btn btn-warning btn-sm" onclick="editarPaciente('${p[0]}')">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarPaciente('${p[0]}')">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function eliminarPaciente(id) {
+            const success = await eliminarDato('Pacientes', id);
+            if (success) {
+                alert('Paciente eliminado correctamente');
+                await cargarDatos();
+                cargarTablaPacientes();
+                poblarSelectsPacientes();
             }
         }
 
-        async function nuevaFactura() {
-            await loadPacientes();
+        function verHistorial(id) {
+            const paciente = allData.pacientes.find(p => p[0] === id);
+            const citasPaciente = allData.citas.filter(c => c[3] === id);
             
-            // Generar número de factura
-            const facturas = await readSheet('Facturas');
-            const year = new Date().getFullYear();
-            const lastNumber = facturas.filter(f => f[1] && f[1].startsWith(year + '/'))
-                .map(f => parseInt(f[1].split('/')[1]) || 0)
-                .reduce((max, n) => Math.max(max, n), 0);
-            const newNumber = `${year}/${(lastNumber + 1).toString().padStart(4, '0')}`;
-            
-            const html = `
-                <form id="formFactura" onsubmit="guardarFactura(event)">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Número Factura</label>
-                            <input type="text" class="form-control" name="numero" value="${newNumber}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Fecha *</label>
-                            <input type="date" class="form-control" name="fecha" required 
-                                   value="${new Date().toISOString().split('T')[0]}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Paciente *</label>
-                        <select class="form-control" name="pacienteId" required>
-                            <option value="">Seleccionar...</option>
-                            ${dataCache.pacientes.map(p => 
-                                `<option value="${p[0]}">${p[2]} ${p[3]} - ${p[1]}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Concepto *</label>
-                        <textarea class="form-control" name="concepto" required rows="3"></textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Base Imponible (€) *</label>
-                            <input type="number" step="0.01" class="form-control" name="base" required 
-                                   onchange="calcularTotal()">
-                        </div>
-                        <div class="form-group">
-                            <label>IVA (%)</label>
-                            <select class="form-control" name="iva" onchange="calcularTotal()">
-                                <option value="0">Exento (0%)</option>
-                                <option value="21">21%</option>
-                                <option value="10">10%</option>
-                                <option value="4">4%</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Total (€)</label>
-                        <input type="number" step="0.01" class="form-control" name="total" readonly>
-                    </div>
-                    
-                    <div style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Crear Factura</button>
-                    </div>
-                </form>
-            `;
-            
-            openModal('Nueva Factura', html);
+            alert(`Historial de ${paciente[2]} ${paciente[3]}\n\nTotal de citas: ${citasPaciente.length}`);
         }
 
-        function nuevaFacturaDesdeCita(cita) {
-            nuevaFactura();
-            setTimeout(() => {
-                const form = document.getElementById('formFactura');
-                if (form) {
-                    form.pacienteId.value = cita[3];
-                    form.concepto.value = `Tratamiento: ${cita[6]}\nFecha: ${formatDate(cita[1])}\nProfesional: ${cita[5]}`;
-                    form.base.value = cita[8];
-                    form.iva.value = '21';
-                    calcularTotal();
-                }
-            }, 100);
+        // ================================================
+        // GESTIÓN DE PROFESIONALES
+        // ================================================
+
+        function cargarTablaProfesionales() {
+            const tbody = document.querySelector('#profesionalesTable tbody');
+            tbody.innerHTML = allData.profesionales.map(p => {
+                const estado = p[8] || 'Activo';
+                const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
+                
+                return `
+                    <tr>
+                        <td>${p[1]}</td>
+                        <td>${p[2]}</td>
+                        <td>${p[3]}</td>
+                        <td>${p[4] || '-'}</td>
+                        <td><span class="badge ${badgeClass}">${estado}</span></td>
+                        <td class="actions">
+                            <button class="btn btn-warning btn-sm" onclick="editarProfesional('${p[0]}')">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarProfesional('${p[0]}')">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
         }
 
-        async function guardarFactura(event) {
-            event.preventDefault();
-            const form = event.target;
+        async function guardarProfesional() {
+            showLoading(true);
+            const form = document.getElementById('profesionalForm');
             
-            const paciente = dataCache.pacientes.find(p => p[0] === form.pacienteId.value);
-            
-            const base = parseFloat(form.base.value) || 0;
-            const ivaPct = parseFloat(form.iva.value) || 0;
-            const iva = base * ivaPct / 100;
-            const total = base + iva;
-            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showLoading(false);
+                return;
+            }
+
             const valores = {
                 values: [
-                    'F' + Date.now(),
-                    form.numero.value,
+                    'PR' + Date.now(),
+                    form.nombre.value,
+                    form.email.value,
+                    form.tipo.value,
+                    form.especialidad.value || '',
+                    form.telefono.value || '',
+                    form.numColegiado.value || '',
+                    '',
+                    'Activo',
+                    new Date().toISOString()
+                ]
+            };
+
+            const success = await guardarDato('Profesionales', valores.values);
+
+            if (success) {
+                alert('Profesional guardado correctamente');
+                closeModal('profesionalModal');
+                form.reset();
+                await cargarDatos();
+                cargarTablaProfesionales();
+                poblarSelectsProfesionales();
+            } else {
+                alert('Error al guardar el profesional');
+            }
+
+            showLoading(false);
+        }
+
+        async function eliminarProfesional(id) {
+            const success = await eliminarDato('Profesionales', id);
+            if (success) {
+                alert('Profesional eliminado correctamente');
+                await cargarDatos();
+                cargarTablaProfesionales();
+                poblarSelectsProfesionales();
+            }
+        }
+
+        // ================================================
+        // GESTIÓN DE ACTOS
+        // ================================================
+
+        function cargarTablaActos() {
+            const tbody = document.querySelector('#actosTable tbody');
+            tbody.innerHTML = allData.actos.map(a => `
+                <tr>
+                    <td>${a[1]}</td>
+                    <td>${a[2]}</td>
+                    <td>${a[3]}</td>
+                    <td>${a[4]}</td>
+                    <td>${a[5]}€</td>
+                    <td class="actions">
+                        <button class="btn btn-warning btn-sm" onclick="editarActo('${a[0]}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarActo('${a[0]}')">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function guardarActo() {
+            showLoading(true);
+            const form = document.getElementById('actoForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showLoading(false);
+                return;
+            }
+
+            const valores = {
+                values: [
+                    'A' + Date.now(),
+                    form.codigo.value,
+                    form.nombre.value,
+                    form.tipo.value,
+                    form.duracion.value,
+                    form.precio.value,
+                    form.descripcion.value || '',
+                    new Date().toISOString()
+                ]
+            };
+
+            const success = await guardarDato('Actos', valores.values);
+
+            if (success) {
+                alert('Acto guardado correctamente');
+                closeModal('actoModal');
+                form.reset();
+                await cargarDatos();
+                cargarTablaActos();
+                poblarSelectsActos();
+            } else {
+                alert('Error al guardar el acto');
+            }
+
+            showLoading(false);
+        }
+
+        async function eliminarActo(id) {
+            const success = await eliminarDato('Actos', id);
+            if (success) {
+                alert('Acto eliminado correctamente');
+                await cargarDatos();
+                cargarTablaActos();
+                poblarSelectsActos();
+            }
+        }
+
+        // ================================================
+        // GESTIÓN DE FACTURAS
+        // ================================================
+
+        function cargarTablaFacturas() {
+            const tbody = document.querySelector('#facturasTable tbody');
+            tbody.innerHTML = allData.facturas.map(f => {
+                const estado = f[9] || 'Pendiente';
+                const badgeClass = estado === 'Pagada' ? 'badge-success' : 
+                                  estado === 'Vencida' ? 'badge-danger' : 'badge-warning';
+                
+                return `
+                    <tr>
+                        <td>${f[1]}</td>
+                        <td>${formatearFecha(f[2])}</td>
+                        <td>${f[4]}</td>
+                        <td>${f[5]}</td>
+                        <td>${f[6]}€</td>
+                        <td>${f[7]}%</td>
+                        <td>${f[8]}€</td>
+                        <td><span class="badge ${badgeClass}">${estado}</span></td>
+                        <td class="actions">
+                            <button class="btn btn-info btn-sm" onclick="verFactura('${f[0]}')">Ver</button>
+                            <button class="btn btn-success btn-sm" onclick="marcarPagada('${f[0]}')">Pagada</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function guardarFactura() {
+            showLoading(true);
+            const form = document.getElementById('facturaForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showLoading(false);
+                return;
+            }
+
+            const paciente = allData.pacientes.find(p => p[0] === form.pacienteId.value);
+            const numeroFactura = 'F' + new Date().getFullYear() + '-' + (allData.facturas.length + 1);
+
+            const valores = {
+                values: [
+                    'FA' + Date.now(),
+                    numeroFactura,
                     form.fecha.value,
                     form.pacienteId.value,
                     paciente ? `${paciente[2]} ${paciente[3]}` : '',
                     form.concepto.value,
-                    base.toFixed(2),
-                    iva.toFixed(2),
-                    total.toFixed(2),
+                    form.base.value,
+                    form.iva.value,
+                    form.total.value,
                     'Pendiente',
                     '',
-                    ''
+                    form.formaPago.value,
+                    new Date().toISOString()
                 ]
             };
-            
-            const success = await writeSheet('Facturas', 'add', valores);
-            
+
+            const success = await guardarDato('Facturas', valores.values);
+
             if (success) {
-                closeModal();
-                loadFacturas();
-                showNotification('Factura creada correctamente', 'success');
+                alert('Factura guardada correctamente');
+                closeModal('facturaModal');
+                form.reset();
+                await cargarDatos();
+                cargarTablaFacturas();
+                actualizarDashboard();
+            } else {
+                alert('Error al guardar la factura');
+            }
+
+            showLoading(false);
+        }
+
+        function calcularTotal() {
+            const form = document.getElementById('facturaForm');
+            const base = parseFloat(form.base.value) || 0;
+            const iva = parseFloat(form.iva.value) || 0;
+            const total = base + (base * iva / 100);
+            form.total.value = total.toFixed(2);
+        }
+
+        function filtrarFacturas() {
+            alert('Función de filtrado en desarrollo');
+        }
+
+        function verFactura(id) {
+            alert('Ver factura: ' + id);
+        }
+
+        async function marcarPagada(id) {
+            const success = await actualizarDato('Facturas', id, { estado: 'Pagada', fechaCobro: new Date().toISOString() });
+            if (success) {
+                alert('Factura marcada como pagada');
+                await cargarDatos();
+                cargarTablaFacturas();
+                actualizarDashboard();
             }
         }
 
-        function verFactura(facturaId) {
-            const factura = dataCache.facturas.find(f => f[0] === facturaId);
-            if (factura) {
-                const html = `
-                    <div class="factura-preview">
-                        <div class="factura-header">
-                            <h3>FACTURA ${factura[1]}</h3>
-                            <p>Fecha: ${formatDate(factura[2])}</p>
-                        </div>
-                        
-                        <div style="margin: 20px 0;">
-                            <h4>Cliente</h4>
-                            <p>${factura[4]}</p>
-                        </div>
-                        
-                        <table class="factura-table">
-                            <thead>
-                                <tr>
-                                    <th>Concepto</th>
-                                    <th style="text-align: right;">Importe</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>${factura[5]}</td>
-                                    <td style="text-align: right;">${factura[6]}€</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <div style="text-align: right; margin-top: 20px;">
-                            <p>Base Imponible: ${factura[6]}€</p>
-                            <p>IVA: ${factura[7]}€</p>
-                            <div class="factura-total">
-                                TOTAL: ${factura[8]}€
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 30px;">
-                            <p><strong>Estado:</strong> 
-                                <span class="badge badge-${factura[9] === 'Pagada' ? 'success' : 'warning'}">
-                                    ${factura[9]}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                `;
-                openModal('Factura', html);
+        // ================================================
+        // CONFIGURACIÓN
+        // ================================================
+
+        function cargarConfiguracionEmpresa() {
+            if (allData.empresa.length > 0) {
+                const empresa = allData.empresa[0];
+                document.getElementById('empresaNombre').value = empresa[1] || '';
+                document.getElementById('empresaCIF').value = empresa[2] || '';
+                document.getElementById('empresaDireccion').value = empresa[3] || '';
+                document.getElementById('empresaCP').value = empresa[4] || '';
+                document.getElementById('empresaCiudad').value = empresa[5] || '';
+                document.getElementById('empresaProvincia').value = empresa[6] || '';
+                document.getElementById('empresaTelefono').value = empresa[7] || '';
+                document.getElementById('empresaEmail').value = empresa[8] || '';
+                document.getElementById('empresaWeb').value = empresa[9] || '';
+                document.getElementById('empresaIVA').value = empresa[10] || '21';
+                document.getElementById('empresaFormaPago').value = empresa[11] || 'Efectivo';
+                document.getElementById('empresaObservaciones').value = empresa[12] || '';
             }
         }
 
-        function imprimirFactura(facturaId) {
-            verFactura(facturaId);
-            setTimeout(() => window.print(), 500);
+        async function guardarEmpresa(e) {
+            e.preventDefault();
+            showLoading(true);
+            
+            const form = document.getElementById('empresaForm');
+            
+            const valores = {
+                values: [
+                    'EMP001',
+                    form.empresaNombre.value,
+                    form.empresaCIF.value,
+                    form.empresaDireccion.value,
+                    form.empresaCP.value,
+                    form.empresaCiudad.value,
+                    form.empresaProvincia.value,
+                    form.empresaTelefono.value,
+                    form.empresaEmail.value,
+                    form.empresaWeb.value,
+                    form.empresaIVA.value,
+                    form.empresaFormaPago.value,
+                    form.empresaObservaciones.value,
+                    new Date().toISOString()
+                ]
+            };
+
+            let success;
+            if (allData.empresa.length > 0) {
+                success = await actualizarDato('Empresa', 'EMP001', valores.values);
+            } else {
+                success = await guardarDato('Empresa', valores.values);
+            }
+
+            if (success) {
+                alert('Configuración guardada correctamente');
+                await cargarDatos();
+            } else {
+                alert('Error al guardar la configuración');
+            }
+
+            showLoading(false);
         }
 
-        async function marcarPagada(facturaId) {
-            const success = await writeSheet('Facturas', 'update', { 
-                id: facturaId, 
-                column: 10, 
-                value: 'Pagada' 
-            });
-            
-            if (success) {
-                await writeSheet('Facturas', 'update', { 
-                    id: facturaId, 
-                    column: 11, 
-                    value: new Date().toISOString().split('T')[0]
-                });
+        function cargarTablaUsuarios() {
+            const tbody = document.querySelector('#usuariosTable tbody');
+            tbody.innerHTML = allData.usuarios.map(u => {
+                const estado = u[8] || 'Activo';
+                const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
                 
-                loadFacturas();
-                showNotification('Factura marcada como pagada', 'success');
-            }
-        }
-
-        // =============================================
-        // TRATAMIENTOS
-        // =============================================
-        async function loadActos() {
-            const actos = await readSheet('Actos');
-            dataCache.actos = actos;
-            
-            const tbody = document.getElementById('actosTable');
-            if (actos.length > 0) {
-                tbody.innerHTML = actos.map(a => `
+                return `
                     <tr>
-                        <td>${a[1] || ''}</td>
-                        <td>${a[2] || ''}</td>
-                        <td>${a[3] || 0} min</td>
-                        <td>${a[4] || 0}€</td>
-                        <td>${a[7] || '21'}%</td>
-                        <td>
-                            <button class="btn btn-sm btn-info" onclick="editarActo('${a[0]}')">✏️</button>
-                            <button class="btn btn-sm btn-danger" onclick="eliminarActo('${a[0]}')">🗑️</button>
+                        <td>${u[0]}</td>
+                        <td>${u[1]}</td>
+                        <td>${u[2]}</td>
+                        <td>${u[4]}</td>
+                        <td><span class="badge ${badgeClass}">${estado}</span></td>
+                        <td class="actions">
+                            <button class="btn btn-warning btn-sm" onclick="editarUsuario('${u[0]}')">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarUsuario('${u[0]}')">Eliminar</button>
                         </td>
                     </tr>
-                `).join('');
-            } else {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay tratamientos registrados</td></tr>';
+                `;
+            }).join('');
+        }
+
+        async function guardarUsuario() {
+            showLoading(true);
+            const form = document.getElementById('usuarioForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showLoading(false);
+                return;
             }
-        }
 
-        function nuevoActo(actoId = null) {
-            const acto = actoId ? dataCache.actos.find(a => a[0] === actoId) : null;
-            const isEdit = !!acto;
-            
-            const html = `
-                <form id="formActo" onsubmit="guardarActo(event, '${actoId || ''}')">
-                    <div class="form-group">
-                        <label>Nombre del Tratamiento *</label>
-                        <input type="text" class="form-control" name="nombre" required 
-                               value="${acto ? acto[1] : ''}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <textarea class="form-control" name="descripcion" rows="3">${acto ? acto[2] || '' : ''}</textarea>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Duración (minutos) *</label>
-                            <select class="form-control" name="duracion" required>
-                                <option value="15" ${acto && acto[3] == 15 ? 'selected' : ''}>15 min</option>
-                                <option value="30" ${acto && acto[3] == 30 ? 'selected' : ''}>30 min</option>
-                                <option value="45" ${acto && acto[3] == 45 ? 'selected' : ''}>45 min</option>
-                                <option value="60" ${acto && acto[3] == 60 ? 'selected' : ''}>60 min</option>
-                                <option value="90" ${acto && acto[3] == 90 ? 'selected' : ''}>90 min</option>
-                                <option value="120" ${acto && acto[3] == 120 ? 'selected' : ''}>120 min</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Precio (€) *</label>
-                            <input type="number" step="0.01" min="0" class="form-control" name="precio" required 
-                                   value="${acto ? acto[4] : ''}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>IVA (%)</label>
-                        <select class="form-control" name="iva">
-                            <option value="0" ${acto && acto[7] == 0 ? 'selected' : ''}>Exento (0%)</option>
-                            <option value="21" ${!acto || acto[7] == 21 ? 'selected' : ''}>21%</option>
-                            <option value="10" ${acto && acto[7] == 10 ? 'selected' : ''}>10%</option>
-                            <option value="4" ${acto && acto[7] == 4 ? 'selected' : ''}>4%</option>
-                        </select>
-                    </div>
-                    
-                    <div style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">${isEdit ? 'Actualizar' : 'Guardar'}</button>
-                    </div>
-                </form>
-            `;
-            
-            openModal(isEdit ? 'Editar Tratamiento' : 'Nuevo Tratamiento', html);
-        }
-
-        function editarActo(id) {
-            nuevoActo(id);
-        }
-
-        async function guardarActo(event, actoId) {
-            event.preventDefault();
-            const form = event.target;
-            
             const valores = {
                 values: [
-                    actoId || 'A' + Date.now(),
-                    form.nombre.value,
-                    form.descripcion.value || '',
-                    form.duracion.value,
-                    form.precio.value,
-                    '#667eea',
-                    'Activo',
-                    form.iva.value
-                ]
-            };
-            
-            const action = actoId ? 'update' : 'add';
-            if (actoId) {
-                valores.id = actoId;
-            }
-            
-            const success = await writeSheet('Actos', action, valores);
-            
-            if (success) {
-                closeModal();
-                loadActos();
-                showNotification(actoId ? 'Tratamiento actualizado' : 'Tratamiento guardado', 'success');
-            }
-        }
-
-        async function eliminarActo(id) {
-            if (confirm('¿Estás seguro de eliminar este tratamiento?')) {
-                const success = await writeSheet('Actos', 'delete', { id: id });
-                if (success) {
-                    loadActos();
-                    showNotification('Tratamiento eliminado', 'success');
-                }
-            }
-        }
-
-        // =============================================
-        // PROFESIONALES
-        // =============================================
-        async function loadUsuarios() {
-            const usuarios = await readSheet('Usuarios');
-            const horarios = await readSheet('Horarios');
-            dataCache.usuarios = usuarios;
-            dataCache.horarios = horarios;
-            
-            const tbody = document.getElementById('usuariosTable');
-            if (usuarios.length > 0) {
-                tbody.innerHTML = usuarios.map(u => {
-                    const horario = horarios.find(h => h[0] === u[0]);
-                    return `
-                        <tr>
-                            <td>${u[1] || ''}</td>
-                            <td>${u[2] || ''}</td>
-                            <td>${u[4] || ''}</td>
-                            <td>${u[6] || ''}</td>
-                            <td>${horario ? 'Configurado' : 'Sin configurar'}</td>
-                            <td><span class="badge badge-${u[8] === 'Activo' ? 'success' : 'danger'}">${u[8] || 'Activo'}</span></td>
-                            <td>
-                                <button class="btn btn-sm btn-info" onclick="editarUsuario('${u[0]}')">✏️</button>
-                                <button class="btn btn-sm btn-warning" onclick="configurarHorario('${u[0]}')">📅</button>
-                                <button class="btn btn-sm btn-danger" onclick="eliminarUsuario('${u[0]}')">🗑️</button>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
-            } else {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No hay profesionales registrados</td></tr>';
-            }
-        }
-
-        function nuevoUsuario(usuarioId = null) {
-            const usuario = usuarioId ? dataCache.usuarios.find(u => u[0] === usuarioId) : null;
-            const isEdit = !!usuario;
-            
-            const html = `
-                <form id="formUsuario" onsubmit="guardarUsuario(event, '${usuarioId || ''}')">
-                    <div class="form-group">
-                        <label>Nombre Completo *</label>
-                        <input type="text" class="form-control" name="nombre" required 
-                               value="${usuario ? usuario[1] : ''}">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Email *</label>
-                            <input type="email" class="form-control" name="email" required 
-                                   value="${usuario ? usuario[2] : ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>Contraseña ${isEdit ? '' : '*'}</label>
-                            <input type="password" class="form-control" name="password" 
-                                   ${isEdit ? '' : 'required'} minlength="6"
-                                   placeholder="${isEdit ? 'Dejar en blanco para no cambiar' : ''}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Tipo *</label>
-                            <select class="form-control" name="tipo" required>
-                                <option value="Fisioterapeuta" ${usuario && usuario[4] === 'Fisioterapeuta' ? 'selected' : ''}>Fisioterapeuta</option>
-                                <option value="Entrenador" ${usuario && usuario[4] === 'Entrenador' ? 'selected' : ''}>Entrenador</option>
-                                <option value="Administrativo" ${usuario && usuario[4] === 'Administrativo' ? 'selected' : ''}>Administrativo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Teléfono</label>
-                            <input type="tel" class="form-control" name="telefono" 
-                                   value="${usuario ? usuario[6] || '' : ''}">
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Especialidad</label>
-                            <input type="text" class="form-control" name="especialidad" 
-                                   value="${usuario ? usuario[5] || '' : ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>Nº Colegiado</label>
-                            <input type="text" class="form-control" name="colegiado" 
-                                   value="${usuario ? usuario[7] || '' : ''}">
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: right;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">${isEdit ? 'Actualizar' : 'Guardar'}</button>
-                    </div>
-                </form>
-            `;
-            
-            openModal(isEdit ? 'Editar Profesional' : 'Nuevo Profesional', html);
-        }
-
-        function editarUsuario(id) {
-            nuevoUsuario(id);
-        }
-
-        function configurarHorario(usuarioId) {
-            const usuario = dataCache.usuarios.find(u => u[0] === usuarioId);
-            const horario = dataCache.horarios.find(h => h[0] === usuarioId);
-            
-            const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-            
-            const html = `
-                <h4>Horario de ${usuario[1]}</h4>
-                <form id="formHorario" onsubmit="guardarHorario(event, '${usuarioId}')">
-                    <div class="horario-grid">
-                        <div></div>
-                        <div style="text-align: center;"><strong>Mañana</strong></div>
-                        <div style="text-align: center;"><strong>Tarde</strong></div>
-                        
-                        ${dias.map((dia, i) => {
-                            const diaData = horario && horario[i + 1] ? horario[i + 1] : '09:00-14:00,16:00-20:00';
-                            const [manana, tarde] = diaData ? diaData.split(',') : ['', ''];
-                            return `
-                                <div class="horario-dia">${dia}</div>
-                                <input type="text" class="form-control" name="manana${i}" 
-                                       placeholder="09:00-14:00" value="${manana || ''}">
-                                <input type="text" class="form-control" name="tarde${i}" 
-                                       placeholder="16:00-20:00" value="${tarde || ''}">
-                            `;
-                        }).join('')}
-                    </div>
-                    
-                    <div style="text-align: right; margin-top: 20px;">
-                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar Horario</button>
-                    </div>
-                </form>
-            `;
-            
-            openModal('Configurar Horario', html);
-        }
-
-        async function guardarHorario(event, usuarioId) {
-            event.preventDefault();
-            const form = event.target;
-            
-            const valores = {
-                values: [usuarioId]
-            };
-            
-            for (let i = 0; i < 7; i++) {
-                const manana = form[`manana${i}`].value;
-                const tarde = form[`tarde${i}`].value;
-                valores.values.push(`${manana},${tarde}`);
-            }
-            
-            const horarioExiste = dataCache.horarios.find(h => h[0] === usuarioId);
-            const action = horarioExiste ? 'update' : 'add';
-            if (horarioExiste) {
-                valores.id = usuarioId;
-            }
-            
-            const success = await writeSheet('Horarios', action, valores);
-            
-            if (success) {
-                closeModal();
-                loadUsuarios();
-                showNotification('Horario guardado', 'success');
-            }
-        }
-
-        async function guardarUsuario(event, usuarioId) {
-            event.preventDefault();
-            const form = event.target;
-            
-            const valores = {
-                values: [
-                    usuarioId || 'U' + Date.now(),
+                    'U' + Date.now(),
                     form.nombre.value,
                     form.email.value,
-                    usuarioId && !form.password.value ? 
-                        dataCache.usuarios.find(u => u[0] === usuarioId)[3] : 
-                        form.password.value,
+                    form.password.value,
                     form.tipo.value,
-                    form.especialidad.value || '',
-                    form.telefono.value || '',
-                    form.colegiado.value || '',
-                    'Activo'
+                    '',
+                    '',
+                    '',
+                    'Activo',
+                    new Date().toISOString()
                 ]
             };
-            
-            const action = usuarioId ? 'update' : 'add';
-            if (usuarioId) {
-                valores.id = usuarioId;
-            }
-            
-            const success = await writeSheet('Usuarios', action, valores);
-            
+
+            const success = await guardarDato('Usuarios', valores.values);
+
             if (success) {
-                closeModal();
-                loadUsuarios();
-                showNotification(usuarioId ? 'Profesional actualizado' : 'Profesional creado', 'success');
+                alert('Usuario guardado correctamente');
+                closeModal('usuarioModal');
+                form.reset();
+                await cargarDatos();
+                cargarTablaUsuarios();
+            } else {
+                alert('Error al guardar el usuario');
             }
+
+            showLoading(false);
         }
 
         async function eliminarUsuario(id) {
-            if (id === 'U001' || id === currentUser.id) {
-                showNotification('No se puede eliminar este usuario', 'error');
+            if (id === currentUser.id) {
+                alert('No puedes eliminar tu propio usuario');
                 return;
             }
             
-            if (confirm('¿Estás seguro de eliminar este profesional?')) {
-                const success = await writeSheet('Usuarios', 'delete', { id: id });
-                if (success) {
-                    loadUsuarios();
-                    showNotification('Profesional eliminado', 'success');
-                }
+            const success = await eliminarDato('Usuarios', id);
+            if (success) {
+                alert('Usuario eliminado correctamente');
+                await cargarDatos();
+                cargarTablaUsuarios();
             }
         }
 
-        // =============================================
-        // UTILIDADES
-        // =============================================
-        function openModal(title, content) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalBody').innerHTML = content;
-            document.getElementById('modal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-        }
-
-        function showNotification(message, type) {
-            const div = document.createElement('div');
-            div.className = `notification ${type}`;
-            div.textContent = message;
-            document.body.appendChild(div);
-            
-            setTimeout(() => div.remove(), 3000);
-        }
-
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            const parts = dateStr.split('-');
-            if (parts.length !== 3) return dateStr;
-            return `${parts[2]}/${parts[1]}/${parts[0]}`;
-        }
-
-        function getStatusBadge(status) {
-            switch(status) {
-                case 'Completada': return 'success';
-                case 'Cancelada': return 'danger';
-                case 'Confirmada': return 'info';
-                case 'Pagada': return 'success';
-                default: return 'warning';
-            }
-        }
-
-        async function testConnection() {
-            try {
-                const response = await fetch(SCRIPT_URL + '?action=test');
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    showNotification('✅ Conexión exitosa', 'success');
-                    document.getElementById('connectionStatus').innerHTML = '🟢 Conectado';
-                } else {
-                    showNotification('❌ Error de conexión', 'error');
-                    document.getElementById('connectionStatus').innerHTML = '🔴 Desconectado';
-                }
-            } catch (error) {
-                showNotification('❌ No se pudo conectar', 'error');
-                document.getElementById('connectionStatus').innerHTML = '🔴 Desconectado';
-            }
-        }
-
-        function changeConnection() {
-            if (confirm('¿Cambiar la URL de conexión? Esto cerrará tu sesión actual.')) {
-                localStorage.removeItem('fisiogest_script_url');
-                localStorage.removeItem('currentUser');
-                location.reload();
-            }
-        }
-
-        // Guardar configuración de la clínica
-        document.getElementById('clinicaForm').addEventListener('submit', function(e) {
+        async function guardarHorarios(e) {
             e.preventDefault();
+            showLoading(true);
             
-            const config = {
-                nombre: document.getElementById('clinicaNombre').value,
-                cif: document.getElementById('clinicaCIF').value,
-                direccion: document.getElementById('clinicaDireccion').value,
-                telefono: document.getElementById('clinicaTelefono').value,
-                email: document.getElementById('clinicaEmail').value
+            const form = document.getElementById('horariosForm');
+            
+            const valores = {
+                values: [
+                    form.horarioProfesional.value,
+                    form.horarioLunes.value || '',
+                    form.horarioMartes.value || '',
+                    form.horarioMiercoles.value || '',
+                    form.horarioJueves.value || '',
+                    form.horarioViernes.value || '',
+                    form.horarioSabado.value || '',
+                    form.horarioDomingo.value || '',
+                    new Date().toISOString()
+                ]
             };
+
+            const success = await guardarDato('Horarios', valores.values);
+
+            if (success) {
+                alert('Horarios guardados correctamente');
+                form.reset();
+                await cargarDatos();
+            } else {
+                alert('Error al guardar los horarios');
+            }
+
+            showLoading(false);
+        }
+
+        // ================================================
+        // EXPORTACIÓN
+        // ================================================
+
+        function exportarPacientes() {
+            const fechaDesde = document.getElementById('exportFechaDesde').value;
+            const fechaHasta = document.getElementById('exportFechaHasta').value;
             
-            localStorage.setItem('clinicaConfig', JSON.stringify(config));
-            showNotification('Configuración guardada', 'success');
-        });
+            let pacientes = allData.pacientes;
+            
+            if (fechaDesde || fechaHasta) {
+                pacientes = pacientes.filter(p => {
+                    const fecha = new Date(p[10]);
+                    if (fechaDesde && fecha < new Date(fechaDesde)) return false;
+                    if (fechaHasta && fecha > new Date(fechaHasta)) return false;
+                    return true;
+                });
+            }
+
+            exportarAExcel(pacientes, 'Pacientes');
+        }
+
+        function exportarCitas() {
+            const fechaDesde = document.getElementById('exportFechaDesde').value;
+            const fechaHasta = document.getElementById('exportFechaHasta').value;
+            
+            let citas = allData.citas;
+            
+            if (fechaDesde || fechaHasta) {
+                citas = citas.filter(c => {
+                    if (fechaDesde && c[1] < fechaDesde) return false;
+                    if (fechaHasta && c[1] > fechaHasta) return false;
+                    return true;
+                });
+            }
+
+            exportarAExcel(citas, 'Citas');
+        }
+
+        function exportarFacturacion() {
+            const fechaDesde = document.getElementById('exportFechaDesde').value;
+            const fechaHasta = document.getElementById('exportFechaHasta').value;
+            
+            let facturas = allData.facturas;
+            
+            if (fechaDesde || fechaHasta) {
+                facturas = facturas.filter(f => {
+                    if (fechaDesde && f[2] < fechaDesde) return false;
+                    if (fechaHasta && f[2] > fechaHasta) return false;
+                    return true;
+                });
+            }
+
+            exportarAExcel(facturas, 'Facturacion');
+        }
+
+        function exportarAExcel(data, nombre) {
+            let csv = '';
+            data.forEach(row => {
+                csv += row.join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', nombre + '_' + new Date().toISOString().split('T')[0] + '.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // ================================================
+        // FUNCIONES AUXILIARES
+        // ================================================
+
+        function poblarSelectsPacientes() {
+            const selects = document.querySelectorAll('select[name="pacienteId"]');
+            const options = allData.pacientes
+                .filter(p => p[7] === 'Activo')
+                .map(p => `<option value="${p[0]}">${p[2]} ${p[3]} (${p[1]})</option>`)
+                .join('');
+            
+            selects.forEach(select => {
+                const defaultOption = select.querySelector('option[value=""]');
+                select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
+            });
+        }
+
+        function poblarSelectsProfesionales() {
+            const selects = document.querySelectorAll('select[name="profesional"], #horarioProfesional');
+            const options = allData.profesionales
+                .filter(p => p[8] === 'Activo')
+                .map(p => `<option value="${p[1]}">${p[1]} - ${p[4] || p[3]}</option>`)
+                .join('');
+            
+            selects.forEach(select => {
+                const defaultOption = select.querySelector('option[value=""]');
+                select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
+            });
+        }
+
+        function poblarSelectsActos() {
+            const selects = document.querySelectorAll('select[name="acto"]');
+            const options = allData.actos
+                .map(a => `<option value="${a[2]}" data-duracion="${a[4]}" data-precio="${a[5]}">${a[2]} (${a[4]}min - ${a[5]}€)</option>`)
+                .join('');
+            
+            selects.forEach(select => {
+                const defaultOption = select.querySelector('option[value=""]');
+                select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
+            });
+        }
+
+        function poblarFiltroProfesionales() {
+            const select = document.getElementById('filtroProfesional');
+            const options = allData.profesionales
+                .filter(p => p[8] === 'Activo')
+                .map(p => `<option value="${p[1]}">${p[1]}</option>`)
+                .join('');
+            
+            select.innerHTML = '<option value="">Todos</option>' + options;
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').classList.toggle('active', show);
+        }
+
+        function showAlert(message, type, elementId) {
+            const alert = document.getElementById(elementId);
+            alert.className = `alert alert-${type} active`;
+            alert.textContent = message;
+            
+            setTimeout(() => {
+                alert.classList.remove('active');
+            }, 5000);
+        }
+
+        function formatearFecha(fecha) {
+            if (!fecha) return '-';
+            const [year, month, day] = fecha.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        // Cerrar modales al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
     </script>
 </body>
 </html>
