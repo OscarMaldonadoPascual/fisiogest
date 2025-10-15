@@ -1411,7 +1411,7 @@
         // CONFIGURACIÓN Y VARIABLES GLOBALES
         // ================================================
         
-        // IMPORTANTE: Reemplaza esta URL con la URL de tu Google Apps Script
+        // IMPORTANTE: Tu URL de Google Apps Script
         const API_URL = 'https://script.google.com/macros/s/AKfycbxSD_F8GugbG56pbTbtW5qae_5SVPh7_ottqaTabVrGxSTTD0dOci80znVzo0OC2Dmj/exec';
         
         // Variables globales
@@ -1609,9 +1609,6 @@
             cargarTablaUsuarios();
             cargarAgenda();
             cargarConfiguracionEmpresa();
-            poblarSelectsPacientes();
-            poblarSelectsProfesionales();
-            poblarSelectsActos();
         }
 
         // ================================================
@@ -1639,7 +1636,7 @@
         function actualizarDashboard() {
             const hoy = new Date().toISOString().split('T')[0];
             const citasHoy = allData.citas.filter(c => c[1] === hoy);
-            const pacientesActivos = allData.pacientes.filter(p => p[7] === 'Activo');
+            const pacientesActivos = allData.pacientes.filter(p => p[11] === 'Activo');
             
             const mesActual = new Date().getMonth();
             const añoActual = new Date().getFullYear();
@@ -1787,6 +1784,14 @@
             calendar.innerHTML = html;
         }
 
+        function cargarCalendarioSemana() {
+            alert('Vista semanal en desarrollo');
+        }
+
+        function cargarCalendarioDia() {
+            alert('Vista diaria en desarrollo');
+        }
+
         function cambiarMes(delta) {
             currentMonth += delta;
             if (currentMonth > 11) {
@@ -1817,109 +1822,26 @@
                 return;
             }
 
-            // CORRECCIÓN CRÍTICA: No convertir las fechas, usarlas directamente
             const paciente = allData.pacientes.find(p => p[0] === form.pacienteId.value);
             const profesional = form.profesional.value;
             const acto = form.acto.value;
 
-            const valores = {
-                values: [
-                    'C' + Date.now(),
-                    form.fecha.value,  // Usar directamente el valor del input (formato YYYY-MM-DD)
-                    form.hora.value,   // Usar directamente el valor del input (formato HH:MM)
-<!-- En lugar del select actual -->
-<div class="form-group">
-    <label>Paciente *</label>
-    <input type="text" 
-           name="pacienteNombre" 
-           id="pacienteBusqueda" 
-           placeholder="Escriba nombre, apellidos o DNI..." 
-           required
-           autocomplete="off">
-    <input type="hidden" name="pacienteId" required>
-    <div id="pacienteSugerencias" style="position: absolute; background: white; border: 1px solid #ddd; max-height: 200px; overflow-y: auto; display: none; z-index: 1000; width: 100%;"></div>
-</div>
-            // Buscador de pacientes con autocompletado
-function configurarBuscadorPacientes() {
-    const input = document.getElementById('pacienteBusqueda');
-    const sugerencias = document.getElementById('pacienteSugerencias');
-    const hiddenId = document.querySelector('input[name="pacienteId"]');
-    
-    if (!input) return;
-    
-    input.addEventListener('input', function() {
-        const busqueda = this.value.toLowerCase();
-        
-        if (busqueda.length < 2) {
-            sugerencias.style.display = 'none';
-            return;
-        }
-        
-        const pacientesFiltrados = allData.pacientes.filter(p => {
-            const nombre = (p[2] || '').toLowerCase();
-            const apellidos = (p[3] || '').toLowerCase();
-            const dni = (p[1] || '').toLowerCase();
-            const estado = p[11] || 'Activo';
-            
-            return estado === 'Activo' && (
-                nombre.includes(busqueda) ||
-                apellidos.includes(busqueda) ||
-                dni.includes(busqueda) ||
-                `${nombre} ${apellidos}`.includes(busqueda)
-            );
-        }).slice(0, 10);  // Máximo 10 sugerencias
-        
-        if (pacientesFiltrados.length > 0) {
-            sugerencias.innerHTML = pacientesFiltrados.map(p => `
-                <div style="padding: 8px; cursor: pointer; hover: background: #f0f0f0;" 
-                     onclick="seleccionarPaciente('${p[0]}', '${p[2]} ${p[3]} (${p[1]})')">
-                    <strong>${p[2]} ${p[3]}</strong> - DNI: ${p[1]}
-                </div>
-            `).join('');
-            sugerencias.style.display = 'block';
-        } else {
-            sugerencias.innerHTML = '<div style="padding: 8px; color: #999;">No se encontraron pacientes</div>';
-            sugerencias.style.display = 'block';
-        }
-    });
-    
-    // Cerrar sugerencias al hacer clic fuera
-    document.addEventListener('click', function(e) {
-        if (!input.contains(e.target) && !sugerencias.contains(e.target)) {
-            sugerencias.style.display = 'none';
-        }
-    });
-}
+            const valores = [
+                'C' + Date.now(),
+                form.fecha.value,
+                form.hora.value,
+                form.pacienteId.value,
+                paciente ? `${paciente[2]} ${paciente[3]}` : '',
+                profesional,
+                acto,
+                form.duracion.value,
+                form.precio.value,
+                'Pendiente',
+                form.observaciones.value || '',
+                new Date().toISOString()
+            ];
 
-function seleccionarPaciente(id, nombreCompleto) {
-    document.getElementById('pacienteBusqueda').value = nombreCompleto;
-    document.querySelector('input[name="pacienteId"]').value = id;
-    document.getElementById('pacienteSugerencias').style.display = 'none';
-}
-
-// Llamar al abrir el modal
-function openModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
-    
-    if(modalId === 'citaModal') {
-        configurarBuscadorPacientes();
-        poblarSelectsProfesionales();
-        poblarSelectsActos();
-    } else if(modalId === 'facturaModal') {
-        configurarBuscadorPacientes();
-    }
-}
-               profesional,
-                    acto,
-                    form.duracion.value,
-                    form.precio.value,
-                    'Pendiente',
-                    form.observaciones.value || '',
-                    new Date().toISOString()
-                ]
-            };
-
-            const success = await guardarDato('Citas', valores.values);
+            const success = await guardarDato('Citas', valores);
 
             if (success) {
                 alert('Cita guardada correctamente');
@@ -1934,47 +1856,46 @@ function openModal(modalId) {
 
             showLoading(false);
         }
-function actualizarDuracionPrecio(select) {
-    const actoNombre = select.value;
-    const acto = allData.actos.find(a => a[2] === actoNombre);
-    
-    if (acto) {
-        const form = select.closest('form');
-        form.duracion.value = acto[4];
-        form.precio.value = parseFloat(acto[5]).toFixed(2);  // Asegurar formato decimal
-        console.log('Acto encontrado:', acto);
-        console.log('Precio asignado:', acto[5]);
-    }
-}
-     
+
+        function actualizarDuracionPrecio(select) {
+            const actoNombre = select.value;
+            const acto = allData.actos.find(a => a[2] === actoNombre);
+            
+            if (acto) {
+                const form = select.closest('form');
+                form.duracion.value = acto[4];
+                form.precio.value = parseFloat(acto[5]).toFixed(2);
+            }
+        }
 
         // ================================================
         // GESTIÓN DE PACIENTES
         // ================================================
 
-function cargarTablaPacientes() {
-    const tbody = document.querySelector('#pacientesTable tbody');
-    tbody.innerHTML = allData.pacientes.map(p => {
-        const estado = p[11] || 'Activo';  // Cambio de p[7] a p[11]
-        const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
-        
-        return `
-            <tr>
-                <td>${p[1]}</td>
-                <td>${p[2]}</td>
-                <td>${p[3]}</td>
-                <td>${p[4] || '-'}</td>
-                <td>${p[5] || '-'}</td>
-                <td><span class="badge ${badgeClass}">${estado}</span></td>
-                <td class="actions">
-                    <button class="btn btn-info btn-sm" onclick="verHistorial('${p[0]}')">Historial</button>
-                    <button class="btn btn-warning btn-sm" onclick="editarPaciente('${p[0]}')">Editar</button>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarPaciente('${p[0]}')">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    }).join('');
-}
+        function cargarTablaPacientes() {
+            const tbody = document.querySelector('#pacientesTable tbody');
+            tbody.innerHTML = allData.pacientes.map(p => {
+                const estado = p[11] || 'Activo';
+                const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
+                
+                return `
+                    <tr>
+                        <td>${p[1]}</td>
+                        <td>${p[2]}</td>
+                        <td>${p[3]}</td>
+                        <td>${p[5] || '-'}</td>
+                        <td>${p[6] || '-'}</td>
+                        <td><span class="badge ${badgeClass}">${estado}</span></td>
+                        <td class="actions">
+                            <button class="btn btn-info btn-sm" onclick="verHistorial('${p[0]}')">Historial</button>
+                            <button class="btn btn-warning btn-sm" onclick="editarPaciente('${p[0]}')">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarPaciente('${p[0]}')">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
         async function guardarPaciente() {
             showLoading(true);
             const form = document.getElementById('pacienteForm');
@@ -1985,23 +1906,22 @@ function cargarTablaPacientes() {
                 return;
             }
 
-            const valores = {
-                values: [
-                    'P' + Date.now(),
-                    form.dni.value,
-                    form.nombre.value,
-                    form.apellidos.value,
-                    form.fechaNacimiento.value || '',
-                    form.telefono.value || '',
-                    form.email.value || '',
-                    'Activo',
-                    form.direccion.value || '',
-                    form.historial.value || '',
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                'P' + Date.now(),
+                form.dni.value,
+                form.nombre.value,
+                form.apellidos.value,
+                form.fechaNacimiento.value || '',
+                form.telefono.value || '',
+                form.email.value || '',
+                'Activo',
+                form.direccion.value || '',
+                form.historial.value || '',
+                new Date().toISOString(),
+                'Activo'
+            ];
 
-            const success = await guardarDato('Pacientes', valores.values);
+            const success = await guardarDato('Pacientes', valores);
 
             if (success) {
                 alert('Paciente guardado correctamente');
@@ -2009,7 +1929,6 @@ function cargarTablaPacientes() {
                 form.reset();
                 await cargarDatos();
                 cargarTablaPacientes();
-                poblarSelectsPacientes();
                 actualizarDashboard();
             } else {
                 alert('Error al guardar el paciente');
@@ -2028,12 +1947,12 @@ function cargarTablaPacientes() {
                     p[1].toLowerCase().includes(search) || 
                     p[2].toLowerCase().includes(search) || 
                     p[3].toLowerCase().includes(search);
-                const cumpleEstado = !estado || p[7] === estado;
+                const cumpleEstado = !estado || (p[11] || 'Activo') === estado;
                 return cumpleTexto && cumpleEstado;
             });
 
             tbody.innerHTML = pacientesFiltrados.map(p => {
-                const estadoPaciente = p[7] || 'Activo';
+                const estadoPaciente = p[11] || 'Activo';
                 const badgeClass = estadoPaciente === 'Activo' ? 'badge-success' : 'badge-danger';
                 
                 return `
@@ -2060,7 +1979,6 @@ function cargarTablaPacientes() {
                 alert('Paciente eliminado correctamente');
                 await cargarDatos();
                 cargarTablaPacientes();
-                poblarSelectsPacientes();
             }
         }
 
@@ -2069,6 +1987,10 @@ function cargarTablaPacientes() {
             const citasPaciente = allData.citas.filter(c => c[3] === id);
             
             alert(`Historial de ${paciente[2]} ${paciente[3]}\n\nTotal de citas: ${citasPaciente.length}`);
+        }
+
+        function editarPaciente(id) {
+            alert('Función de edición en desarrollo');
         }
 
         // ================================================
@@ -2107,22 +2029,20 @@ function cargarTablaPacientes() {
                 return;
             }
 
-            const valores = {
-                values: [
-                    'PR' + Date.now(),
-                    form.nombre.value,
-                    form.email.value,
-                    form.tipo.value,
-                    form.especialidad.value || '',
-                    form.telefono.value || '',
-                    form.numColegiado.value || '',
-                    '',
-                    'Activo',
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                'PR' + Date.now(),
+                form.nombre.value,
+                form.email.value,
+                form.tipo.value,
+                form.especialidad.value || '',
+                form.telefono.value || '',
+                form.numColegiado.value || '',
+                '',
+                'Activo',
+                new Date().toISOString()
+            ];
 
-            const success = await guardarDato('Profesionales', valores.values);
+            const success = await guardarDato('Profesionales', valores);
 
             if (success) {
                 alert('Profesional guardado correctamente');
@@ -2130,7 +2050,6 @@ function cargarTablaPacientes() {
                 form.reset();
                 await cargarDatos();
                 cargarTablaProfesionales();
-                poblarSelectsProfesionales();
             } else {
                 alert('Error al guardar el profesional');
             }
@@ -2144,8 +2063,11 @@ function cargarTablaPacientes() {
                 alert('Profesional eliminado correctamente');
                 await cargarDatos();
                 cargarTablaProfesionales();
-                poblarSelectsProfesionales();
             }
+        }
+
+        function editarProfesional(id) {
+            alert('Función de edición en desarrollo');
         }
 
         // ================================================
@@ -2179,20 +2101,18 @@ function cargarTablaPacientes() {
                 return;
             }
 
-            const valores = {
-                values: [
-                    'A' + Date.now(),
-                    form.codigo.value,
-                    form.nombre.value,
-                    form.tipo.value,
-                    form.duracion.value,
-                    form.precio.value,
-                    form.descripcion.value || '',
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                'A' + Date.now(),
+                form.codigo.value,
+                form.nombre.value,
+                form.tipo.value,
+                form.duracion.value,
+                form.precio.value,
+                form.descripcion.value || '',
+                new Date().toISOString()
+            ];
 
-            const success = await guardarDato('Actos', valores.values);
+            const success = await guardarDato('Actos', valores);
 
             if (success) {
                 alert('Acto guardado correctamente');
@@ -2200,7 +2120,6 @@ function cargarTablaPacientes() {
                 form.reset();
                 await cargarDatos();
                 cargarTablaActos();
-                poblarSelectsActos();
             } else {
                 alert('Error al guardar el acto');
             }
@@ -2214,8 +2133,11 @@ function cargarTablaPacientes() {
                 alert('Acto eliminado correctamente');
                 await cargarDatos();
                 cargarTablaActos();
-                poblarSelectsActos();
             }
+        }
+
+        function editarActo(id) {
+            alert('Función de edición en desarrollo');
         }
 
         // ================================================
@@ -2261,25 +2183,23 @@ function cargarTablaPacientes() {
             const paciente = allData.pacientes.find(p => p[0] === form.pacienteId.value);
             const numeroFactura = 'F' + new Date().getFullYear() + '-' + (allData.facturas.length + 1);
 
-            const valores = {
-                values: [
-                    'FA' + Date.now(),
-                    numeroFactura,
-                    form.fecha.value,
-                    form.pacienteId.value,
-                    paciente ? `${paciente[2]} ${paciente[3]}` : '',
-                    form.concepto.value,
-                    form.base.value,
-                    form.iva.value,
-                    form.total.value,
-                    'Pendiente',
-                    '',
-                    form.formaPago.value,
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                'FA' + Date.now(),
+                numeroFactura,
+                form.fecha.value,
+                form.pacienteId.value,
+                paciente ? `${paciente[2]} ${paciente[3]}` : '',
+                form.concepto.value,
+                form.base.value,
+                form.iva.value,
+                form.total.value,
+                'Pendiente',
+                '',
+                form.formaPago.value,
+                new Date().toISOString()
+            ];
 
-            const success = await guardarDato('Facturas', valores.values);
+            const success = await guardarDato('Facturas', valores);
 
             if (success) {
                 alert('Factura guardada correctamente');
@@ -2349,30 +2269,28 @@ function cargarTablaPacientes() {
             
             const form = document.getElementById('empresaForm');
             
-            const valores = {
-                values: [
-                    'EMP001',
-                    form.empresaNombre.value,
-                    form.empresaCIF.value,
-                    form.empresaDireccion.value,
-                    form.empresaCP.value,
-                    form.empresaCiudad.value,
-                    form.empresaProvincia.value,
-                    form.empresaTelefono.value,
-                    form.empresaEmail.value,
-                    form.empresaWeb.value,
-                    form.empresaIVA.value,
-                    form.empresaFormaPago.value,
-                    form.empresaObservaciones.value,
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                'EMP001',
+                form.empresaNombre.value,
+                form.empresaCIF.value,
+                form.empresaDireccion.value,
+                form.empresaCP.value,
+                form.empresaCiudad.value,
+                form.empresaProvincia.value,
+                form.empresaTelefono.value,
+                form.empresaEmail.value,
+                form.empresaWeb.value,
+                form.empresaIVA.value,
+                form.empresaFormaPago.value,
+                form.empresaObservaciones.value,
+                new Date().toISOString()
+            ];
 
             let success;
             if (allData.empresa.length > 0) {
-                success = await actualizarDato('Empresa', 'EMP001', valores.values);
+                success = await actualizarDato('Empresa', 'EMP001', valores);
             } else {
-                success = await guardarDato('Empresa', valores.values);
+                success = await guardarDato('Empresa', valores);
             }
 
             if (success) {
@@ -2417,22 +2335,20 @@ function cargarTablaPacientes() {
                 return;
             }
 
-            const valores = {
-                values: [
-                    'U' + Date.now(),
-                    form.nombre.value,
-                    form.email.value,
-                    form.password.value,
-                    form.tipo.value,
-                    '',
-                    '',
-                    '',
-                    'Activo',
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                'U' + Date.now(),
+                form.nombre.value,
+                form.email.value,
+                form.password.value,
+                form.tipo.value,
+                '',
+                '',
+                '',
+                'Activo',
+                new Date().toISOString()
+            ];
 
-            const success = await guardarDato('Usuarios', valores.values);
+            const success = await guardarDato('Usuarios', valores);
 
             if (success) {
                 alert('Usuario guardado correctamente');
@@ -2461,27 +2377,29 @@ function cargarTablaPacientes() {
             }
         }
 
+        function editarUsuario(id) {
+            alert('Función de edición en desarrollo');
+        }
+
         async function guardarHorarios(e) {
             e.preventDefault();
             showLoading(true);
             
             const form = document.getElementById('horariosForm');
             
-            const valores = {
-                values: [
-                    form.horarioProfesional.value,
-                    form.horarioLunes.value || '',
-                    form.horarioMartes.value || '',
-                    form.horarioMiercoles.value || '',
-                    form.horarioJueves.value || '',
-                    form.horarioViernes.value || '',
-                    form.horarioSabado.value || '',
-                    form.horarioDomingo.value || '',
-                    new Date().toISOString()
-                ]
-            };
+            const valores = [
+                form.horarioProfesional.value,
+                form.horarioLunes.value || '',
+                form.horarioMartes.value || '',
+                form.horarioMiercoles.value || '',
+                form.horarioJueves.value || '',
+                form.horarioViernes.value || '',
+                form.horarioSabado.value || '',
+                form.horarioDomingo.value || '',
+                new Date().toISOString()
+            ];
 
-            const success = await guardarDato('Horarios', valores.values);
+            const success = await guardarDato('Horarios', valores);
 
             if (success) {
                 alert('Horarios guardados correctamente');
@@ -2574,17 +2492,17 @@ function cargarTablaPacientes() {
         // ================================================
 
         function poblarSelectsPacientes() {
-    const selects = document.querySelectorAll('select[name="pacienteId"]');
-    const options = allData.pacientes
-        .filter(p => p[11] === 'Activo')  // Cambio de p[7] a p[11]
-        .map(p => `<option value="${p[0]}">${p[2]} ${p[3]} (${p[1]})</option>`)
-        .join('');
-    
-    selects.forEach(select => {
-        const defaultOption = select.querySelector('option[value=""]');
-        select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
-    });
-}
+            const selects = document.querySelectorAll('select[name="pacienteId"]');
+            const options = allData.pacientes
+                .filter(p => (p[11] || 'Activo') === 'Activo')
+                .map(p => `<option value="${p[0]}">${p[2]} ${p[3]} (${p[1]})</option>`)
+                .join('');
+            
+            selects.forEach(select => {
+                const defaultOption = select.querySelector('option[value=""]');
+                select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
+            });
+        }
 
         function poblarSelectsProfesionales() {
             const selects = document.querySelectorAll('select[name="profesional"], #horarioProfesional');
@@ -2621,18 +2539,20 @@ function cargarTablaPacientes() {
             select.innerHTML = '<option value="">Todos</option>' + options;
         }
 
-function openModal(modalId) {
-    document.getElementById(modalId).classList.add('active');
-    
-    // Poblar selectores según el modal
-    if(modalId === 'citaModal') {
-        poblarSelectsPacientes();
-        poblarSelectsProfesionales();
-        poblarSelectsActos();
-    } else if(modalId === 'facturaModal') {
-        poblarSelectsPacientes();
-    }
-}        function closeModal(modalId) {
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            
+            // Poblar selectores según el modal
+            if(modalId === 'citaModal') {
+                poblarSelectsPacientes();
+                poblarSelectsProfesionales();
+                poblarSelectsActos();
+            } else if(modalId === 'facturaModal') {
+                poblarSelectsPacientes();
+            }
+        }
+
+        function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
 
