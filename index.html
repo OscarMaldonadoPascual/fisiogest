@@ -1229,6 +1229,7 @@
                             <select name="tipo" required>
                                 <option value="Fisioterapeuta">Fisioterapeuta</option>
                                 <option value="Administrativo">Administrativo</option>
+                                <option value="Entrenador">Entrenador</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1392,6 +1393,7 @@
                             <select name="tipo" required>
                                 <option value="Administrativo">Administrativo</option>
                                 <option value="Fisioterapeuta">Fisioterapeuta</option>
+                                <option value="Entrenador">Entrenador</option>
                             </select>
                         </div>
                     </div>
@@ -1825,9 +1827,89 @@
                     'C' + Date.now(),
                     form.fecha.value,  // Usar directamente el valor del input (formato YYYY-MM-DD)
                     form.hora.value,   // Usar directamente el valor del input (formato HH:MM)
-                    form.pacienteId.value,
-                    paciente ? `${paciente[2]} ${paciente[3]}` : '',
-                    profesional,
+<!-- En lugar del select actual -->
+<div class="form-group">
+    <label>Paciente *</label>
+    <input type="text" 
+           name="pacienteNombre" 
+           id="pacienteBusqueda" 
+           placeholder="Escriba nombre, apellidos o DNI..." 
+           required
+           autocomplete="off">
+    <input type="hidden" name="pacienteId" required>
+    <div id="pacienteSugerencias" style="position: absolute; background: white; border: 1px solid #ddd; max-height: 200px; overflow-y: auto; display: none; z-index: 1000; width: 100%;"></div>
+</div>
+            // Buscador de pacientes con autocompletado
+function configurarBuscadorPacientes() {
+    const input = document.getElementById('pacienteBusqueda');
+    const sugerencias = document.getElementById('pacienteSugerencias');
+    const hiddenId = document.querySelector('input[name="pacienteId"]');
+    
+    if (!input) return;
+    
+    input.addEventListener('input', function() {
+        const busqueda = this.value.toLowerCase();
+        
+        if (busqueda.length < 2) {
+            sugerencias.style.display = 'none';
+            return;
+        }
+        
+        const pacientesFiltrados = allData.pacientes.filter(p => {
+            const nombre = (p[2] || '').toLowerCase();
+            const apellidos = (p[3] || '').toLowerCase();
+            const dni = (p[1] || '').toLowerCase();
+            const estado = p[11] || 'Activo';
+            
+            return estado === 'Activo' && (
+                nombre.includes(busqueda) ||
+                apellidos.includes(busqueda) ||
+                dni.includes(busqueda) ||
+                `${nombre} ${apellidos}`.includes(busqueda)
+            );
+        }).slice(0, 10);  // Máximo 10 sugerencias
+        
+        if (pacientesFiltrados.length > 0) {
+            sugerencias.innerHTML = pacientesFiltrados.map(p => `
+                <div style="padding: 8px; cursor: pointer; hover: background: #f0f0f0;" 
+                     onclick="seleccionarPaciente('${p[0]}', '${p[2]} ${p[3]} (${p[1]})')">
+                    <strong>${p[2]} ${p[3]}</strong> - DNI: ${p[1]}
+                </div>
+            `).join('');
+            sugerencias.style.display = 'block';
+        } else {
+            sugerencias.innerHTML = '<div style="padding: 8px; color: #999;">No se encontraron pacientes</div>';
+            sugerencias.style.display = 'block';
+        }
+    });
+    
+    // Cerrar sugerencias al hacer clic fuera
+    document.addEventListener('click', function(e) {
+        if (!input.contains(e.target) && !sugerencias.contains(e.target)) {
+            sugerencias.style.display = 'none';
+        }
+    });
+}
+
+function seleccionarPaciente(id, nombreCompleto) {
+    document.getElementById('pacienteBusqueda').value = nombreCompleto;
+    document.querySelector('input[name="pacienteId"]').value = id;
+    document.getElementById('pacienteSugerencias').style.display = 'none';
+}
+
+// Llamar al abrir el modal
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+    
+    if(modalId === 'citaModal') {
+        configurarBuscadorPacientes();
+        poblarSelectsProfesionales();
+        poblarSelectsActos();
+    } else if(modalId === 'facturaModal') {
+        configurarBuscadorPacientes();
+    }
+}
+               profesional,
                     acto,
                     form.duracion.value,
                     form.precio.value,
@@ -1852,17 +1934,19 @@
 
             showLoading(false);
         }
-
-       function actualizarDuracionPrecio(select) {
+function actualizarDuracionPrecio(select) {
     const actoNombre = select.value;
-    const acto = allData.actos.find(a => a[2] === actoNombre);  // Cambio aquí
+    const acto = allData.actos.find(a => a[2] === actoNombre);
     
     if (acto) {
         const form = select.closest('form');
         form.duracion.value = acto[4];
-        form.precio.value = acto[5];
+        form.precio.value = parseFloat(acto[5]).toFixed(2);  // Asegurar formato decimal
+        console.log('Acto encontrado:', acto);
+        console.log('Precio asignado:', acto[5]);
     }
 }
+     
 
         // ================================================
         // GESTIÓN DE PACIENTES
