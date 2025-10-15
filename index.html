@@ -2537,11 +2537,18 @@ function cargarTablaPacientes() {
             select.innerHTML = '<option value="">Todos</option>' + options;
         }
 
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+    
+    // Poblar selectores según el modal
+    if(modalId === 'citaModal') {
+        poblarSelectsPacientes();
+        poblarSelectsProfesionales();
+        poblarSelectsActos();
+    } else if(modalId === 'facturaModal') {
+        poblarSelectsPacientes();
+    }
+}        function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
 
