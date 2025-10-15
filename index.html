@@ -1853,45 +1853,44 @@
             showLoading(false);
         }
 
-        function actualizarDuracionPrecio(select) {
-            const actoId = select.value;
-            const acto = allData.actos.find(a => a[1] === actoId);
-            
-            if (acto) {
-                const form = select.closest('form');
-                form.duracion.value = acto[3];
-                form.precio.value = acto[4];
-            }
-        }
+       function actualizarDuracionPrecio(select) {
+    const actoNombre = select.value;
+    const acto = allData.actos.find(a => a[2] === actoNombre);  // Cambio aquí
+    
+    if (acto) {
+        const form = select.closest('form');
+        form.duracion.value = acto[4];
+        form.precio.value = acto[5];
+    }
+}
 
         // ================================================
         // GESTIÓN DE PACIENTES
         // ================================================
 
-        function cargarTablaPacientes() {
-            const tbody = document.querySelector('#pacientesTable tbody');
-            tbody.innerHTML = allData.pacientes.map(p => {
-                const estado = p[7] || 'Activo';
-                const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
-                
-                return `
-                    <tr>
-                        <td>${p[1]}</td>
-                        <td>${p[2]}</td>
-                        <td>${p[3]}</td>
-                        <td>${p[5] || '-'}</td>
-                        <td>${p[6] || '-'}</td>
-                        <td><span class="badge ${badgeClass}">${estado}</span></td>
-                        <td class="actions">
-                            <button class="btn btn-info btn-sm" onclick="verHistorial('${p[0]}')">Historial</button>
-                            <button class="btn btn-warning btn-sm" onclick="editarPaciente('${p[0]}')">Editar</button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarPaciente('${p[0]}')">Eliminar</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
+function cargarTablaPacientes() {
+    const tbody = document.querySelector('#pacientesTable tbody');
+    tbody.innerHTML = allData.pacientes.map(p => {
+        const estado = p[11] || 'Activo';  // Cambio de p[7] a p[11]
+        const badgeClass = estado === 'Activo' ? 'badge-success' : 'badge-danger';
+        
+        return `
+            <tr>
+                <td>${p[1]}</td>
+                <td>${p[2]}</td>
+                <td>${p[3]}</td>
+                <td>${p[4] || '-'}</td>
+                <td>${p[5] || '-'}</td>
+                <td><span class="badge ${badgeClass}">${estado}</span></td>
+                <td class="actions">
+                    <button class="btn btn-info btn-sm" onclick="verHistorial('${p[0]}')">Historial</button>
+                    <button class="btn btn-warning btn-sm" onclick="editarPaciente('${p[0]}')">Editar</button>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarPaciente('${p[0]}')">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
         async function guardarPaciente() {
             showLoading(true);
             const form = document.getElementById('pacienteForm');
@@ -2491,17 +2490,17 @@
         // ================================================
 
         function poblarSelectsPacientes() {
-            const selects = document.querySelectorAll('select[name="pacienteId"]');
-            const options = allData.pacientes
-                .filter(p => p[7] === 'Activo')
-                .map(p => `<option value="${p[0]}">${p[2]} ${p[3]} (${p[1]})</option>`)
-                .join('');
-            
-            selects.forEach(select => {
-                const defaultOption = select.querySelector('option[value=""]');
-                select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
-            });
-        }
+    const selects = document.querySelectorAll('select[name="pacienteId"]');
+    const options = allData.pacientes
+        .filter(p => p[11] === 'Activo')  // Cambio de p[7] a p[11]
+        .map(p => `<option value="${p[0]}">${p[2]} ${p[3]} (${p[1]})</option>`)
+        .join('');
+    
+    selects.forEach(select => {
+        const defaultOption = select.querySelector('option[value=""]');
+        select.innerHTML = defaultOption ? defaultOption.outerHTML + options : options;
+    });
+}
 
         function poblarSelectsProfesionales() {
             const selects = document.querySelectorAll('select[name="profesional"], #horarioProfesional');
